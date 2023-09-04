@@ -1,0 +1,203 @@
+[
+
+  {
+    "id": 1,
+    "name": "MSI Summit E13 Flip Evo A13MT Core i7 13th Gen 13.4\" FHD+ 120Hz Touch Laptop",
+    "image": "https://www.startech.com.bd/image/cache/catalog/laptop/msi/summit-e13-flip-evo-a13mt/summit-e13-flip-evo-a13mt-01-228x228.webp",
+    "description": "Processor: Intel Core i7-1360P (18M Cache, 2.20 GHz up to 5.00 GHz)\nRAM: 16GB LPDDR5, Storage: 1TB SSD\nDisplay: 13.4\" FHD+ (1920x1200) 120Hz Touchscreen\nFeatures: 360° Flip design, Fingerprint, Backlit Keyboard",
+    "price": "TBA"
+  },
+  {
+    "id": 2,
+    "name": "Dell Latitude 14 3420 Core i5 11th Gen 14\" FHD Laptop",
+    "image": "https://www.startech.com.bd/image/cache/catalog/laptop/dell/latitude-14-3420/latitude-3420-01-228x228.jpg",
+    "description": "Processor: Intel Core i5-1135G7 (8MB Cache, 2.40 GHz up to 4.20 GHz)\nRAM: 8GB 3200MHz DDR4, Storage: 512GB SSD\nDisplay: 14\" FHD (1920 x 1080)\nFeatures: microSD-card slot,  Type-C port",
+    "price": "82,500৳"
+  },
+  {
+    "id": 3,
+    "name": "Acer Aspire 7 A715-76G Core i5 12th Gen RTX 3050 4GB Graphics IPS 144Hz 15.6\" Gaming Laptop",
+    "image": "https://www.startech.com.bd/image/cache/catalog/laptop/acer/a715-76g/a715-76g-228x228.webp",
+    "description": "Processor: Intel Core i5-12450H 12th Gen\nRAM: 8GB DDR4  Storage: 512GB SSD\nGraphics: NVIDIA RTX 3050 4GB GDDR6\nFeatures: Backlit Keyboard, Fingerprint, Type-C",
+    "price": "TBA"
+  },
+  {
+    "id": 4,
+    "name": "Samsung Galaxy A03 Core Smartphone (2/32GB)",
+    "image": "https://www.startech.com.bd/image/cache/catalog/mobile/samsung/galaxy-a03-core/a03-core-002-228x228.webp",
+    "description": "Display: 6.5\" 720 x 1600 (HD+)\nProcessor: Octa-core (1.6GHz, 1.2GHz)\nCamera: 8MP Rear, 5MP Front\nFeatures: 5000mAh Li-Ion Battery",
+    "price": "12,299৳"
+  },
+  {
+    "id": 5,
+    "name": "OPPO A17k Smartphone (3/64GB)",
+    "image": "https://www.startech.com.bd/image/cache/catalog/mobile/oppo/a17k/a17k-blue-228x228.webp",
+    "description": "Display: 6.56\" HD+ Eye-care Display\nProcessor: Mediatek MT6765 Helio G35 (12 nm)\nCamera: Single 8MP on Rear, 5MP Front\nFeatures: Side-mounted Fingerprint, IPX4",
+    "price": "14,990৳"
+  },
+  {
+    "id": 6,
+    "name": "Vivo Y02t Smartphone (4/64GB)",
+    "image": "https://www.startech.com.bd/image/cache/catalog/mobile/vivo/y02/y02-blue-228x228.webp",
+    "description": "Display: 6.51\" HD+ Eye Protection Screen\nProcessor: Mediatek MT6765 Helio P35 (12nm)\nCamera: Single 8MP on Rear, 5MP Front\nFeatures: 5000mAh Battery, 4GB Extended RAM",
+    "price": "14,999৳"
+  },
+  {
+    "id": 7,
+
+  "name": "Univision LED350 22\" 60Hz AH FHD Monitor",
+  "image": "https://www.startech.com.bd/image/cache/catalog/monitor/univision/led350/led350-01-228x228.png",
+  "description": "Resolution: FHD (1920x1080)\nDisplay: AH-LED, 60Hz, 5ms\nPorts: VGA, HDMI\nFeatures: Eye saver Mode, Flicker Free",
+  "price": "7,500৳"
+},
+{
+  "id": 8,
+  "name": "PHILIPS 18.5\" 193V5LSB2 LED MONITOR",
+  "image": "https://www.startech.com.bd/image/cache/catalog/monitor/philips/193v/193v-228x228.png",
+  "description": "Resolution: (1366 x 768)\nDisplay: TFT-LCD, 60Hz, 5ms\nPorts: VGA\nFeatures: VESA mount",
+  "price": "8,500৳"
+},
+{
+  "id": 9,
+  "name": "Lenovo D19-10 18.5 Inch HD HDMI VGA Monitor",
+  "image": "https://www.startech.com.bd/image/cache/catalog/monitor/lenovo/d19-10/d19-10-01-228x228.jpg",
+  "description": "Resolution: 1366 x 768\nDisplay: TN, 60Hz, 5ms\nPorts: HDMI, VGA\nFeatures: ‎VESA Mount",
+  "price": "8,500৳"
+},
+{
+  "id": 10,
+  "name": "Smart SEL-32L22KS 32\" HD Basic LED Television",
+  "image": "https://www.startech.com.bd/image/cache/catalog/television/smart/sel‐32l22ks/sel‐32l22ks-01-228x228.webp",
+  "description": "Resolution: HD (1360x768) Resolution \n2x HDMI, 1x USB, Audio Out\nMaterial: Plastic Fiber\nPicture Modes: Dynamic, Standard,Soft, User",
+  "price": "14,000৳"
+},
+{
+  "id": 11,
+  "name": "Haier H32D2M 32 Inch Miracast HD Non-Smart LED Television",
+  "image": "https://www.startech.com.bd/image/cache/catalog/television/haier/h32d2m/h32d2m-01-228x228.jpg",
+  "description": "32 inch HD(1366 x 768) LED Display\nInput: HDMI x 3, USB x 1, Audio Ports\nResponse time: 20ms\nMiracast Screen Mirroring",
+  "price": "15,500৳"
+},
+{
+  "id": 12,
+  "name": "Gree GS-24NFA410 2 Ton Fairy-Split Non-Inverter Air Conditioner",
+  "image": "https://www.startech.com.bd/image/cache/catalog/air-conditioner/gree/gs-18nfa410/gs-18nfa410-01-228x228.jpg",
+  "description": "Capacity: 24,000 Btu/Hr. (2.0 Ton)\nCoverage: 181-240 Sft\nWashable Air Purify Filters\nPower Consumption: 2.80 KW",
+  "price": "74,000৳"
+},
+{
+  "id": 13,
+  "name": "General ASGA18FMTB 1.5 Ton Split Air Conditioner",
+  "image": "https://www.startech.com.bd/image/cache/catalog/air-conditioner/general/asga18feta/asga18feta-228x228.jpg",
+  "description": "Six Health Filters & Multi Fan Speed\nCoverage: 150-180 Sqft\nCompressor Type: R410A\nEnergy Saving: 220-240v, 50Hz",
+  "price": "85,000৳"
+},
+{
+  "id": 14,
+  "name": "General ASGA24FMTB 2 Ton Split Air Conditioner",
+  "image": "https://www.startech.com.bd/image/cache/catalog/air-conditioner/general/asga24fmtb/asga24fmtb-01-228x228.jpg",
+  "description": "Capacity: 2 Ton\nExact BTU: 24,000\nCoverage Space: 240-250 (sft)\nRefrigerant: Gas (R-410)",
+  "price": "98,500৳"
+},
+{
+  "id": 15,
+  "name": "Fantech X8 Combat Macro RGB Gaming Mouse",
+  "image": "https://www.startech.com.bd/image/cache/catalog/mouse/fantech/x8-combat/x8-combat-228x228.jpeg",
+  "description": "10,000,000 Click lifetime\nTracking Method: Optical\nInterface: USB\nMacro Mouse",
+  "price": "TBA"
+},
+{
+  "id": 16,
+  "name": "A4TECH Bloody G220 3.5mm & USB Gaming Headphone Black",
+  "image": "https://www.startech.com.bd/image/cache/catalog/headphone/a4tech/bloody-g220s/bloody-g220s-228x228.jpg",
+  "description": "Large Protein Leather Ear Pads\nSingle-Directional Mic\nAuto-Adjusting Headband\nBraided Tangle-Free Cable",
+  "price": "TBA"
+},
+{
+  "id": 17,
+  "name": "Dareu EM908 Victor RGB Gaming Mouse Pink",
+  "image": "https://www.startech.com.bd/image/cache/catalog/mouse/dareu/em908-victor/em908-victor-01-228x228.webp",
+  "description": "Connection Type: Wired with USB\nSensor: ATG4090; DPI: 600-6000\nIPS:100; Acceleration: 20G\nBacklight: RGB, Button: 6",
+  "price": "TBA"
+},
+{
+  "id": 18,
+  
+  "name": "GIGABYTE Aorus C500 Glass Mid Tower Micro ATX Casing",
+  "image": "https://www.startech.com.bd/image/cache/catalog/casing/gigabyte/c500/c500-01-228x228.jpg",
+  "description": "Support Motherboards up to E-ATX\nUp to 420mm Liquid Cooling Compatible\nSupport Vertical GPU Installation\nPre-installed 4 fans with ARGB & PWM Connector Hub",
+  "price": "16,500৳"
+},
+{
+  "id": 19,
+  "name": "NZXT C1000 80 Plus Gold Full Modular 1000 Watt Power Supply",
+  "image": "https://www.startech.com.bd/image/cache/catalog/power-supply/nzxt/c1000/c1000-01-228x228.webp",
+  "description": "ATX12V v2.52\nOutput Capacity: 1000W\nCertifications: 80 PLUS Gold\nFan Size: 120mm Fan, Bearing: fluid-dynamic bearing",
+  "price": "16,500৳"
+},
+{
+  "id": 20,
+  "name": "GIGABYTE UD1000GM 1000W Ultra Durable 80+ Gold Full Modular Power Supply",
+  "image": "https://www.startech.com.bd/image/cache/catalog/power-supply/gigabyte/ud1000gm-1000w/ud1000gm-1000w-01-228x228.webp",
+  "description": "Modular: Fully Modular\nPower (W): 1000W\nCertifications: 80 PLUS Gold \nFan Type: 120mm Hydraulic Bearing(HYB)fan",
+  "price": "16,500৳"
+},
+{
+  "id": 21,
+  "name": "Intel 13th Gen Core i3-13100 Raptor Lake Processor",
+  "image": "https://www.startech.com.bd/image/cache/catalog/processor/intel/core-i3-13100/core-i3-13100-01-228x228.webp",
+  "description": "Clock Speed: 3.40 GHz up to 4.50 GHz\nCores: 4, Threads: 8\nCache: 12 MB\nSocket: LGA 1700",
+  "price": "16,500৳"
+},
+{
+  "id": 22,
+  "name": "MSI PRO B760M-G 12th Gen & 13th Gen mATX Motherboard",
+  "image": "https://www.startech.com.bd/image/cache/catalog/motherboard/msi/pro-b760m-g/pro-b760m-g-01-228x228.webp",
+  "description": "Supported CPU: 12th/13th Gen Intel Processors (LGA1700)\nSupported RAM: 2x DDR5, Max 96GB 6400+(OC)\nGraphics Output: 1x HDMI, 1x DP, 1x VGA\nFeatures: 2x M.2 slot, Realtek RTL8125B 2.5Gbps LAN",
+  "price": "16,500৳"
+},
+{
+  "id": 23,
+  "name": "Corsair VENGEANCE RGB 32GB (2x16GB) DDR5 5200MHz C40 AMD EXPO RAM Kit",
+  "image": "https://www.startech.com.bd/image/cache/catalog/ram/cosair/vengeance-rgb/vengeance-rgb-01-228x228.webp",
+  "description": "Capacity: 32GB\nFrequency: DDR5 5200MHz\nForm Factor: 288-Pin\nVoltage & Cas Latency: 1.25V/C40",
+  "price": "16,500৳"
+},
+{
+  "id": 24,
+  "name": "GIGABYTE A620M S2H AMD AM5 Micro-ATX Motherboard",
+  "image": "https://www.startech.com.bd/image/cache/catalog/motherboard/gigabyte/a620m-s2h/a620m-s2h-01-228x228.webp",
+  "description": "Supported CPU: Ryzen 7000 Series Processors for Socket AM5\nSupported Memory: 2 x DDR5 6400(OC) Max. 96GB\nGraphics Output: 2 x DisplayPort, 1 x HDMI port\nFeatures: 1 x D-Sub, 1 x DisplayPort, 1 x HDMI",
+  "price": "16,500৳"
+},
+{
+  "id": 25,
+  "name": "GIGABYTE B650M DS3H DDR5 AMD AM5 Micro-ATX Motherboard",
+  "image": "https://www.startech.com.bd/image/cache/catalog/motherboard/gigabyte/b650m-ds3h/b650m-ds3h-01-228x228.webp",
+  "description": "Supported CPU: Ryzen 7000 Series Processors for Socket AM5\nSupported RAM: 4x DDR5, up to 128GB, 6400(OC)\nGraphics Output: 2x Display Port, 1 x HDMI\nFeatures: 2.5GbE LAN",
+  "price": "16,900৳"
+},
+{
+  "id": 26,
+  "name": "GIGABYTE B760M DS3H AX DDR4 13th and 12th Gen Intel mATX Motherboard",
+  "image": "https://www.startech.com.bd/image/cache/catalog/motherboard/gigabyte/b760m-ds3h-ax-ddr4/b760m-ds3h-ax-ddr4-01-228x228.webp",
+  "description": "Supported CPU: 12th/13th Gen Intel Processors (LGA1700)\nSupported RAM: 4x DDR4, Max 128GB 5333(OC)\nGraphics Output: 1x HDMI, 1x DisplayPort\nFeatures: Realtek 2.5GbE LAN chip, Intel Wi-Fi 6E AX211",
+  "price": "16,900৳"
+},
+{
+  "id": 27,
+  "name": "Intel 11th Gen Core i5-11400 Rocket Lake Processor",
+  "image": "https://www.startech.com.bd/image/cache/catalog/processor/Intel/core-i5-11400/core-i5-11400-228x228.jpg",
+  "description": "Clock Speed: 2.60 GHz Up to 4.40 GHz\nCache: 12 MB, Socket: LGA 1200\nCPU Cores: 6, CPU Threads: 12\nGPU name: Intel UHD Graphics 730",
+  "price": "18,000৳"
+},
+{
+  "id": 28,
+  "name": "ASUS TUF GAMING B560M-E 10th and 11th Gen mATX Motherboard",
+  "image": "https://www.startech.com.bd/image/cache/catalog/motherboard/asus/tuf-gaming-b560m-e/b560m-e-01-228x228.jpg",
+  "description": "Intel LGA 1200 socket: Ready for 11th & 10th gen processors\nSupport memory overclocking up to 5000 MHz\nPCIe 4.0, 2.5 Gb Ethernet, USB 3.2 Gen 2 Type-C\nASUS OptiMem II",
+  "price": "17,000৳"
+}
+
+
+]

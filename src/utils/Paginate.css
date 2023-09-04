@@ -1,0 +1,43 @@
+/* Pagination.css */
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.page-number {
+  cursor: pointer;
+  padding: 0.6rem;
+  margin: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 0.35rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.page-number:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination-container .previous,
+.pagination-container .next {
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pagination-container .previous:hover,
+.pagination-container .next:hover {
+  background-color: #007bff;
+  color: white;
+}
