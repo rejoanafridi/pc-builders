@@ -1,7 +1,10 @@
 // Component.js
 import { useEffect, useState } from 'react';
-import component from '../../db/component.json';
+
 import Pagination from '../../utils/Paginate';
+import DropdownButton from '../../utils/dropdown/DropdownButton';
+import { Link } from 'react-router-dom';
+import slugify from 'slugify';
 
 const ProductsComponent = () => {
   const path = window.location.pathname;
@@ -12,10 +15,8 @@ const ProductsComponent = () => {
   const [data, setData] = useState([]);
   console.log(data[0]);
 
-
-
   const [products, setProducts] = useState([]);
- 
+
   const itemsPerPage = 20;
   const totalPages = Math.ceil(data[0]?.length / itemsPerPage);
 
@@ -30,53 +31,63 @@ const ProductsComponent = () => {
       return [];
     }
   };
-  
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
   };
 
-  const displayComponent = data[0]?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
+  const createSlug = (text) => {
+    return slugify(text, {
+      replacement: '-', // Replace spaces with -
+      remove: /[*+~.()'"!:@]/g, // Remove characters that are not allowed
+      lower: true, // Convert to lowercase
+    }).replace(/\//g, '-'); // Replace forward slashes with hyphens
+  };
+
+  const displayComponent = data[0]
+    ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
       <div key={index} className='w-full md:w-1/4 px-4 mb-4 min-h-[300px]'>
         <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer'>
-          {/* Product Image */}
-          <img
-            src={item.imageUrl || ''}
-            alt='Product Image'
-            className='mx-auto mb-2'
-            width={250}
-            height={150}
-          />
+          <Link to={`/${createSlug(item.name)}`}>
+            {/* Product Image */}
+            <img
+              src={item.imageUrl || ''}
+              alt='Product Image'
+              className='mx-auto mb-2'
+              width={250}
+              height={150}
+            />
 
-          {/* Product Title */}
-          <h2 className='text-center text-lg font-semibold hover:text-blue-500'>
-            {item.name}
-          </h2>
+            {/* Product Title */}
+            <h2 className='text-center text-lg font-semibold hover:text-blue-500'>
+              {item.name}
+            </h2>
 
-          {/* Product Features */}
-          <ul className='mt-2 flex flex-col'>
-            {itemDescription(item.description).map((li, index) => (
-              <li key={index}>{li}</li>
-            ))}
-          </ul>
+            {/* Product Features */}
+            <ul className='mt-2 flex flex-col'>
+              {itemDescription(item.description ).map((li, index) => (
+                <li key={index}>{li}</li>
+              ))}
+            </ul>
 
-          {/* Product Price */}
-          <div className='text-center text-xl mt-4 font-bold'>
-            ${item.price}
-          </div>
+            {/* Product Price */}
+            <div className='text-center text-xl mt-4 font-bold'>
+              ${item.price}
+            </div>
 
-          {/* Buy Now Button */}
-          <button className='bg-blue-500 text-white mt-4 py-2 rounded-full w-full hover:bg-blue-600'>
-            Buy Now
-          </button>
+            {/* Buy Now Button */}
+            <button className='bg-blue-500 text-white mt-4 py-2 rounded-full w-full hover:bg-blue-600'>
+              Buy Now
+            </button>
+          </Link>
         </div>
       </div>
     ));
 
   useEffect(() => {
     // Fetch products and set them as an array
-    fetch('/api/allProducts.json')
+    fetch('/api/products.json')
       .then((res) => res.json())
       .then((data) => {
         setProducts(data); // Set products as an array
@@ -90,7 +101,7 @@ const ProductsComponent = () => {
     // Set the filtered components as data
     const filteredComponents = products?.map((item) => item[repath]);
     setData(filteredComponents);
-  }, [products,repath]);// Make sure to include products and url in the dependency array
+  }, [products, repath]); // Make sure to include products and url in the dependency array
 
   return (
     <div className='flex flex-wrap'>
@@ -230,6 +241,18 @@ const ProductsComponent = () => {
       <div className='w-full md:w-3/4 p-4'>
         {/* Header with Filter and Show by Item Dropdowns */}
         {/* ... (Your header content here) */}
+        <div className='flex justify-between'>
+          <h1 className='font-bold text-orange-500 text-2xl'>
+            {repath.toUpperCase()}
+          </h1>
+          <div className='flex gap-5'>
+            <DropdownButton name='Show' options={[30, 40, 60, 70, 90]} />
+            <DropdownButton
+              name='Sort'
+              options={['Default', 'Price Low-High', 'Price High-Low']}
+            />
+          </div>
+        </div>
 
         <hr className='my-4 border-gray-300' />
 

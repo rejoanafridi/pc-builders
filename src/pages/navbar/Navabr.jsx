@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { GiElectric } from 'react-icons/gi';
 import { BiSolidOffer } from 'react-icons/bi';
 import { FiUser } from 'react-icons/fi';
+import './Navbar.css'
 const Navabr = () => {
   return (
     <>
@@ -63,9 +64,12 @@ const Navabr = () => {
 
         <div className='categories-menu bg-white p-4 shadow-md mx-auto'>
           <div className='container   mx-auto'>
-            <ul className='text-black flex justify-between gap-3'>
+            <ul className='text-black flex justify-between  gap-3'>
               <Link to='/laptop'>
                 <li>Laptop</li>
+              </Link>
+              <Link to='/desktops'>
+                <li>Desktop</li>
               </Link>
               <Link to='/components'>
                 <li>Component</li>
@@ -88,8 +92,11 @@ const Navabr = () => {
               <Link to='/camera'>
                 <li>Camera</li>
               </Link>
+              <Link to='/security-camera'>
+                <li>Security Camera</li>
+              </Link>
               
-              <Link to='/network'>
+              <Link to='/networking'>
                 <li>Networking</li>
               </Link>
               <Link to='/software'>
