@@ -1,79 +1,113 @@
-
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const ProductDetails = () => {
-  return (
-    <>
-      <div className='bg-gray-100'>
-        <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 container mx-auto p-5'>
-          <div className=' rounded-lg'>
-            <img
-              src='https://www.startech.com.bd/image/cache/catalog/monitor/msi/g2722/g2722-06-500x500.webp'
-              height={500}
-              width={500}
-              alt='image'
-            />
+  const { productName } = useParams();
+  console.log(productName);
+  const [quantity, setQuantity] = useState(1);
+  const [products, setProducts] = useState([]);
+  const [findProduct, setFindProduct] = useState({});
+  console.log(findProduct);
+
+  useEffect(() => {
+    fetch('/api/allProducts.json')
+      .then((res) => res.json())
+      .then((result) => setProducts(result));
+  }, [productName]);
+
+  useEffect(() => {
+    const productFound = products.find(
+      (product) =>
+        product.name.toLowerCase().replace(/\s+/g, '-') === productName,
+    );
+
+    if (productFound) {
+      setFindProduct(productFound);
+    }
+  }, [products, productName]);
+
+  let template;
+  if (findProduct) {
+    template = (
+      <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 container mx-auto p-5'>
+        <div className=' rounded-lg'>
+          <img
+            src={findProduct.imageUrl}
+            height={500}
+            width={500}
+            alt='image'
+          />
+        </div>
+        <div className=' rounded-lg  lg:col-span-2'>
+          <h1 className='text-3xl text-orange-600 font-bold'>
+            {findProduct.name}
+          </h1>
+
+          <div className='tags flex flex-wrap gap-2 sm:gap-3 md:gap-4 lg:gap-5 my-5'>
+            <div className='rounded-full bg-slate-300 px-3 sm:px-4 md:px-5 py-2'>
+              <span>Price</span> {findProduct?.additionalDetails?.regularPrice}
+            </div>
+            <div className='rounded-full bg-slate-300 px-3 sm:px-4 md:px-5 py-2'>
+              <span>productCode:</span>{' '}
+              {findProduct?.additionalDetails?.productCode}
+            </div>
+            <div className='rounded-full bg-slate-300 px-3 sm:px-4 md:px-5 py-2'>
+              <span></span> {findProduct?.additionalDetails?.status}
+            </div>
           </div>
-          <div className=' rounded-lg  lg:col-span-2'>
-            <h1 className='text-3xl text-orange-600 font-bold'>title</h1>
-            <div className='tags flex flex-wrap gap-2 sm:gap-3 md:gap-4 lg:gap-5 my-5'>
-              <div className='rounded-full bg-slate-300 px-3 sm:px-4 md:px-5 py-2'>
-                Price <span className='font-bold'>30,800</span>
-              </div>
-              <div className='rounded-full bg-slate-300 px-3 sm:px-4 md:px-5 py-2'>
-                <span>Price</span> 30,800
-              </div>
-              <div className='rounded-full bg-slate-300 px-3 sm:px-4 md:px-5 py-2'>
-                <span>Price</span> 30,800
-              </div>
-              <div className='rounded-full bg-slate-300 px-3 sm:px-4 md:px-5 py-2'>
-                <span>Price</span> 30,800
-              </div>
+
+          <div className='key-features'>
+            <div className='flex flex-col gap-3'>
+              <h1 className='text-2xl font-bold'> Key Features</h1>
+              {findProduct?.additionalDetails?.keyFeatures?.map(
+                (features, index) => (
+                  <React.Fragment key={index}>
+                    <li>{features}</li>
+                  </React.Fragment>
+                ),
+              )}
+
+              <span className='text-orange-500 underline'>View More Info</span>
             </div>
 
-            <div className='key-features'>
-              <div className='flex flex-col gap-3'>
-                <h1 className='text-2xl font-bold'> Key Features</h1>
-                <p>Model : 53624</p>
-                <p>Resolution : 53624</p>
-                <p>Resolution : 53624</p>
-                <p>Display : 53624</p>
-                <p>Ports : 53624</p>
-                <p>Features : 53624</p>
-                <span className='text-orange-500 underline'>
-                  View More Info
-                </span>
-              </div>
+            <div className='my-5'>
+              <label htmlFor='Quantity' className='sr-only'>
+                {' '}
+                Quantity{' '}
+              </label>
 
-              <div className='my-5'>
-                <label htmlFor='Quantity' className='sr-only'>
-                  {' '}
-                  Quantity{' '}
-                </label>
+              <div className='flex items-center border border-gray-200 rounded w-32'>
+                <button
+                  type='button'
+                  className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
+                  -
+                </button>
 
-                <div className='flex items-center border border-gray-200 rounded w-32'>
-                  <button
-                    type='button'
-                    className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
-                    -
-                  </button>
+                <input
+                  type='number'
+                  id='Quantity'
+                  value={quantity} // Controlled by state
+                  onChange={(e) => setQuantity(e.target.value)} // Update the state on change
+                  className='h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
+                />
 
-                  <input
-                    type='number'
-                    id='Quantity'
-                    value='1'
-                    className='h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
-                  />
-
-                  <button
-                    type='button'
-                    className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
-                    +
-                  </button>
-                </div>
+                <button
+                  type='button'
+                  className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
+                  +
+                </button>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className='bg-gray-100'>
+        {template}
         <section className=' container mx-auto'>
           <div className='flex flex-col lg:flex-row lg:space-x-4'>
             <div className='w-full lg:w-4/5 flex flex-col gap-2'>
@@ -100,44 +134,33 @@ const ProductDetails = () => {
                     Display Features{' '}
                   </h2>
                 </div>
-                <div className='flow-root'>
-                  <dl className='-my-3 divide-y divide-gray-100 text-sm'>
-                    <div className='grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
-                      <dt className='font-medium text-gray-900'>Title</dt>
-                      <dd className='text-gray-700 sm:col-span-2'>Mr</dd>
-                    </div>
-
-                    <div className='grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
-                      <dt className='font-medium text-gray-900'>Name</dt>
-                      <dd className='text-gray-700 sm:col-span-2'>
-                        John Frusciante
-                      </dd>
-                    </div>
-
-                    <div className='grid grid-cols-1 gap-1 py-3 even:hover:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
-                      <dt className='font-medium text-gray-900'>
-                        Occuputation
-                      </dt>
-                      <dd className='text-gray-700 sm:col-span-2'>Guitarist</dd>
-                    </div>
-
-                    <div className='grid grid-cols-1 gap-1 py-3 even:hover:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
-                      <dt className='font-medium text-gray-900'>Salary</dt>
-                      <dd className='text-gray-700 sm:col-span-2'>
-                        $1,000,000+
-                      </dd>
-                    </div>
-                  </dl>
-                </div>
+                {findProduct?.specifications && (
+                  <div className='flow-root'>
+                    <dl className='-my-3 divide-y divide-gray-100 text-sm'>
+                      {Object.entries(findProduct?.specifications).map(
+                        ([key, value], index) => (
+                          <div
+                            key={index}
+                            className={`grid grid-cols-1 gap-1 py-3 ${
+                              index % 2 === 0
+                                ? 'even:bg-gray-50'
+                                : 'even:hover:bg-gray-50'
+                            } sm:grid-cols-3 sm:gap-4`}>
+                            <dt className='font-medium text-gray-900'>{key}</dt>
+                            <dd className='text-gray-700 sm:col-span-2'>
+                              {value}
+                            </dd>
+                          </div>
+                        ),
+                      )}
+                    </dl>
+                  </div>
+                )}
               </div>
               <div className='description bg-white p-3 flex flex-col gap-2 rounded-md'>
                 <h1 className='font-bold text-2xl'>Description</h1>
-                <h1 className='font-bold text-2xl'>naem name</h1>
-                <p className=''>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
-                  sapiente doloremque asperiores tenetur, ullam harum voluptatem
-                  impedit ratione porro officia.{' '}
-                </p>
+                <h1 className='font-bold text-2xl'> {findProduct?.name}</h1>
+                <p className=''>{findProduct?.description}</p>
               </div>
             </div>
 
