@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import About from './pages/about/About';
 import Footer from './pages/footer/Footer';
 import ProductsComponent from './components/products/ProductComponent';
+import ProductDetails from './components/product-details/ProductDetails';
 
 function App() {
   return (
@@ -17,24 +18,27 @@ function App() {
           <Navabr />
           <Routes>
             <Route path='/' element={<Home />}></Route>
+            <Route path='/:productName' element={<ProductDetails />}></Route>
             <Route path='/about' element={<About />}></Route>
             <Route path='/components' element={<ProductsComponent />}></Route>
             <Route path='/laptop' element={<ProductsComponent />}></Route>
             <Route path='/mobile' element={<ProductsComponent />}></Route>
             <Route path='/camera' element={<ProductsComponent />}></Route>
+            <Route path='/security-camera' element={<ProductsComponent />}></Route>
             <Route path='/ups-ips' element={<ProductsComponent />}></Route>
             <Route path='/office-equipment' element={<ProductsComponent />}></Route>
-            <Route path='/network' element={<ProductsComponent />}></Route>
+            <Route path='/networking' element={<ProductsComponent />}></Route>
             <Route path='/server-networking' element={<ProductsComponent />}></Route>
             <Route path='/software' element={<ProductsComponent />}></Route>
             <Route path='/accessories' element={<ProductsComponent />}></Route>
             <Route path='/gadget' element={<ProductsComponent />}></Route>
+            <Route path='/desktops' element={<ProductsComponent />}></Route>
             <Route path='/tablet' element={<ProductsComponent />}></Route>
             <Route path='/television' element={<ProductsComponent />}></Route>
             <Route path='/gaming' element={<ProductsComponent />}></Route>
-  
             <Route path='/ups' element={<ProductsComponent />}></Route>
             <Route path='/air-conditioner' element={<ProductsComponent />}></Route>
+
           </Routes>
           <Footer />
         </BrowserRouter>
