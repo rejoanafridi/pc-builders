@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import slugify from 'slugify';
 
 const ProductDetails = () => {
   const { productName } = useParams();
@@ -15,10 +16,16 @@ const ProductDetails = () => {
       .then((result) => setProducts(result));
   }, [productName]);
 
+  const createSlug = (text) => {
+    return slugify(text, {
+      replacement: '-', // Replace spaces with -
+      remove: /[*+~.()'"!:@]/g, // Remove characters that are not allowed
+      lower: true, // Convert to lowercase
+    }).replace(/\//g, '-'); // Replace forward slashes with hyphens
+  };
   useEffect(() => {
     const productFound = products.find(
-      (product) =>
-        product.name.toLowerCase().replace(/\s+/g, '-') === productName,
+      (product) => createSlug(product.name) === productName,
     );
 
     if (productFound) {
