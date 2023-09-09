@@ -27,7 +27,7 @@ const ProductDetails = () => {
     const productFound = products.find(
       (product) => createSlug(product.name) === productName,
     );
-
+// he
     if (productFound) {
       setFindProduct(productFound);
     }
