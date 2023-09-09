@@ -2,8 +2,12 @@ import { Link } from 'react-router-dom';
 import { GiElectric } from 'react-icons/gi';
 import { BiSolidOffer } from 'react-icons/bi';
 import { FiUser } from 'react-icons/fi';
-import './Navbar.css'
-const Navabr = () => {
+import './Navbar.css';
+import CategoriesMenu from '../../components/categories-menu/CategoriesMenu';
+
+const Navbar = () => {
+ 
+
   return (
     <>
       <div className='bg-black text-white'>
@@ -15,17 +19,20 @@ const Navabr = () => {
             </Link>
           </div>
 
+        
+          
+
           {/* Search Section */}
-          <div>
+          <div className='hidden md:block'>
             <input
               type='text'
               placeholder='Search'
-              className='px-2 py-1  rounded-lg border border-gray-300 focus:outline-none '
+              className='px-2 py-1 rounded-lg border border-gray-300 focus:outline-none'
             />
           </div>
 
-          {/* Menu Items */}
-          <div className='flex space-x-10 justify-center align-center'>
+          {/* Menu Items (visible on medium and larger screens) */}
+          <div className='hidden md:flex space-x-10 justify-center align-center'>
             <div className='flex justify-center align-center gap-5'>
               <BiSolidOffer className='text-orange-700' size={32} />
               <div>
@@ -62,73 +69,40 @@ const Navabr = () => {
           </div>
         </nav>
 
-        <div className='categories-menu bg-white p-4 shadow-md mx-auto'>
-          <div className='container   mx-auto'>
-            <ul className='text-black flex justify-between  gap-3'>
-              <Link to='/laptop'>
-                <li>Laptop</li>
-              </Link>
-              <Link to='/desktops'>
-                <li>Desktop</li>
-              </Link>
-              <Link to='/components'>
-                <li>Component</li>
-              </Link>
-
-              <Link to='/mobile'>
-                <li>Phone</li>
-              </Link>
-              <Link to='/ups'>
-                <li>Ups</li>
-              </Link>
-
-              <Link to='/tablet'>
-                <li>Tablet</li>
-              </Link>
-              <Link to='/office-equipment'>
-                <li>Office Equipment</li>
-              </Link>
-             
-              <Link to='/camera'>
-                <li>Camera</li>
-              </Link>
-              <Link to='/security-camera'>
-                <li>Security Camera</li>
-              </Link>
-              
-              <Link to='/networking'>
-                <li>Networking</li>
-              </Link>
-              <Link to='/software'>
-                <li>Software</li>
-              </Link>
-              <Link to='/server-networking'>
-                <li>Server</li>
-              </Link>
-              <Link to='/accessories'>
-                <li>Accessories</li>
-              </Link>
-              <Link to='/gadget'>
-                <li>Gadget</li>
-              </Link>
-              <Link to='/gaming'>
-                <li>Gaming</li>
-              </Link>
-      
-              <Link to='/television'>
-                <li>Television</li>
-              </Link>
-              <Link to='/air-conditioner'>
-                <li>Ac</li>
-              </Link>
-      
-             
-            </ul>
+        {/* Categories Menu (hidden by default, shown on mobile) */}
+        <div className='categories-menu bg-white p-4 shadow-md mx-auto md:hidden'>
+          <div className='container mx-auto text-black flex'>
+            <div className='flex justify-center align-center gap-5'>
+              <BiSolidOffer className='text-orange-700' size={32} />
+              <div>
+                <Link to='/offer'>
+                  <p className='text-2xl sm:text-sm'>Offer</p>
+                </Link>
+              </div>
+            </div>
+            <div className='flex justify-center align-center gap-5'>
+              <GiElectric className='text-orange-700' size={32} />
+              <div>
+                <Link to='/gadgets'>
+                  <p className='text-2xl sm:text-sm'>Gadget</p>
+                </Link>
+              </div>
+            </div>
+            <div className='flex justify-center align-center my-auto gap-5'>
+              <FiUser className='text-orange-700' size={32} />
+              <div>
+                <Link to='/account/login'>
+                  <p className='text-xl sm:text-sm'>Account</p>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
+
+        <CategoriesMenu />
       </div>
     </>
   );
 };
 
-export default Navabr;
+export default Navbar;

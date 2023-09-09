@@ -1,19 +1,19 @@
 // Component.js
 import { useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import slugify from 'slugify';
 import DropdownButton from '../../../utils/dropdown/DropdownButton';
 import Pagination from '../../../utils/Paginate';
 
 const ChooseComponents = () => {
-  const path = window.location.pathname;
-  const repath = path.replace('/', '');
+  const { componentName } = useParams();
+
   const [showLeftSide, setShowLeftSide] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
 
   const [data, setData] = useState([]);
-  console.log(data[0]);
+  console.log(data);
 
   const [products, setProducts] = useState([]);
 
@@ -47,20 +47,21 @@ const ChooseComponents = () => {
   const displayComponent = data[0]
     ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
-      <div key={index} className='w-full md:w-1/4 px-4 mb-4 min-h-[300px]'>
-        <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer'>
-          <Link to={`/${createSlug(item.name)}`}>
-            {/* Product Image */}
+      <div key={index} className='w-full  px-4 mb-4 '>
+        <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer flex items-center'>
+          {/* Product Image */}
+          <div className='w-1/5'>
             <img
               src={item.imageUrl || ''}
               alt='Product Image'
-              className='mx-auto mb-2'
-              width={250}
-              height={150}
+              className='w-full h-auto'
+              
             />
+          </div>
 
+          <div className='w-3/5 p-4'>
             {/* Product Title */}
-            <h2 className='text-center text-lg font-semibold hover:text-blue-500'>
+            <h2 className='text-left text-lg font-semibold hover:text-blue-500'>
               {item.name}
             </h2>
 
@@ -70,38 +71,44 @@ const ChooseComponents = () => {
                 <li key={index}>{li}</li>
               ))}
             </ul>
+          </div>
 
+          <div className='w-1/5 text-center'>
             {/* Product Price */}
-            <div className='text-center text-xl mt-4 font-bold'>
-              ${item.price}
-            </div>
+            <div className='text-xl font-bold'>${item.price}</div>
 
             {/* Buy Now Button */}
-            <button className='bg-blue-500 text-white mt-4 py-2 rounded-full w-full hover:bg-blue-600'>
-              Buy Now
+            <button className='bg-orange-500 text-white mt-4 py-2 rounded-full w-full hover:bg-orange-600'>
+              Add Now
             </button>
-          </Link>
+          </div>
         </div>
       </div>
     ));
 
   useEffect(() => {
     // Fetch products and set them as an array
-    fetch('/api/products.json')
+    fetch('/api/allComponents.json')
       .then((res) => res.json())
-      .then((data) => {
-        setProducts(data); // Set products as an array
-      })
+      .then(
+        (data) => setProducts(data), //Set products as an array
+      )
       .catch((error) => {
         console.error('Error fetching products:', error);
       });
   }, []); // Run this effect once when the component mounts
 
   useEffect(() => {
-    // Set the filtered components as data
-    const filteredComponents = products?.map((item) => item[repath]);
-    setData(filteredComponents);
-  }, [products, repath]); // Make sure to include products and url in the dependency array
+    if (products && componentName) {
+      // Filter the products array based on the presence of componentName key
+      const filteredComponents = products.map((item) => item[componentName]);
+
+      console.log(filteredComponents, 'filteredComponents');
+
+      // Now, filteredComponents contains only the objects with componentName key
+      setData(filteredComponents);
+    }
+  }, [products, componentName]);
 
   return (
     <div className='flex flex-wrap'>
@@ -242,9 +249,6 @@ const ChooseComponents = () => {
         {/* Header with Filter and Show by Item Dropdowns */}
         {/* ... (Your header content here) */}
         <div className='flex justify-between'>
-          <h1 className='font-bold text-orange-500 text-2xl'>
-            {repath.toUpperCase()}
-          </h1>
           <div className='flex gap-5'>
             <DropdownButton name='Show' options={[30, 40, 60, 70, 90]} />
             <DropdownButton
@@ -257,7 +261,7 @@ const ChooseComponents = () => {
         <hr className='my-4 border-gray-300' />
 
         {/* Product Cards */}
-        <div className='flex flex-wrap -mx-4'>{displayComponent}</div>
+        <div className='flex flex-col flex-wrap mx-4'>{displayComponent}</div>
 
         {/* Pagination */}
         {totalPages > 1 && (

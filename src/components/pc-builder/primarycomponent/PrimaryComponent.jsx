@@ -27,7 +27,7 @@ const PrimaryComponent = ({ props, name }) => {
             </div>
             <div className='rounded-lg flex justify-end'>
               <Link
-                to={`/pc-builder/choose-component/:${component.name
+                to={`/pc-builder/choose-component/${component.name
                   .toLowerCase()
                   .replace(' ', '-')}`}>
                 <button className='choose border-2 px-4 py-2 w-32 text-center'>
