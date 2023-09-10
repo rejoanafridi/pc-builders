@@ -66,7 +66,7 @@ const ProductsComponent = () => {
             <div className='text-center text-xl mt-4 font-bold'>
               ${item.price}
             </div>
-            <button className='bg-blue-500 text-white mt-4 py-2 rounded-full w-full hover:bg-blue-600'>
+            <button className='bg-orange-500 text-white mt-4 py-2 rounded-full w-full hover:bg-orange-600'>
               Buy Now
             </button>
           </Link>
