@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PrimaryComponent from './primarycomponent/PrimaryComponent';
+import { useSelector } from 'react-redux';
 
 const PcBuilder = () => {
-  const coreComponents = {
+  const addedProducts = useSelector((state) => state.products.addedProducts);
+
+  const [product, setProduct] = useState({
     coreComponents: [
       {
         name: 'processor',
@@ -81,7 +84,34 @@ const PcBuilder = () => {
         icon: 'https://www.techlandbd.com/image/cache/wp/gp/AAA-Offer/pc_builder/antivirus-48x48.webp',
       },
     ],
-  };
+  });
+  console.log(product);
+
+  useEffect(() => {
+    // Use the map function to update coreComponents in an immutable way
+    const updatedCoreComponents = product.coreComponents.map((component) => {
+      // Check if there is a matching key in addedProducts
+      const componentName = component.name.toLowerCase();
+      if (addedProducts[componentName]) {
+        // Merge data from addedProducts into the current component
+        return {
+          ...component,
+          data: addedProducts[componentName],
+        };
+      }
+      // If no match found, return the original component
+      return component;
+    });
+
+    // Create a new product object with the updated coreComponents
+    const updatedProduct = {
+      ...product,
+      coreComponents: updatedCoreComponents,
+    };
+
+    // Update the product state with the new object
+    setProduct(updatedProduct);
+  }, [addedProducts]);
 
   return (
     <div className='container mx-auto border min-h-screen my-4'>
@@ -116,17 +146,14 @@ const PcBuilder = () => {
         </div>
 
         <PrimaryComponent
-          props={coreComponents?.coreComponents}
+          props={product.coreComponents}
           name={'Core Components'}
         />
         <PrimaryComponent
-          props={coreComponents?.others}
+          props={product?.others}
           name={'PERIPHERALS & OTHERS'}
         />
-        <PrimaryComponent
-          props={coreComponents?.accessories}
-          name={'Accessories'}
-        />
+        <PrimaryComponent props={product?.accessories} name={'Accessories'} />
       </div>
     </div>
   );

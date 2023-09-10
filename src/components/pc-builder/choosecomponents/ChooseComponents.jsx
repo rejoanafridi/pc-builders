@@ -95,15 +95,11 @@ const ChooseComponents = () => {
             <div className='text-xl font-bold'>${item.price}</div>
 
             {/* Buy Now Button */}
-            <Link
-              to={{
-                pathname: `/pc-builder/${item.name}`, // Set the pathname for the link
-                state: { productData: item }, // Pass the product data as state
-              }}>
-              <button className='bg-orange-500 text-white mt-4 py-2 rounded-full w-full hover:bg-orange-600'>
-                Add Now
-              </button>
-            </Link>
+            <button
+              className='bg-orange-500 text-white mt-4 py-2 rounded-full w-full hover:bg-orange-600'
+              onClick={() => handleAddNowClick(item)}>
+              Add Now
+            </button>
           </div>
         </div>
       </div>
