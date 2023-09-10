@@ -1,28 +1,42 @@
 // Component.js
 import { useEffect, useState } from 'react';
 
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import slugify from 'slugify';
 import DropdownButton from '../../../utils/dropdown/DropdownButton';
 import Pagination from '../../../utils/Paginate';
+import Search from '../../../utils/search/Search';
+import { useDispatch } from 'react-redux';
+import { addProductToBuilder } from '../../../redux/features/products/productsSlice';
 
 const ChooseComponents = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { componentName } = useParams();
 
   const [showLeftSide, setShowLeftSide] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
 
   const [data, setData] = useState([]);
-  console.log(data);
 
   const [products, setProducts] = useState([]);
 
+  const handleAddNowClick = (productData) => {
+    // Dispatch action to set the selected product
+    dispatch(
+      addProductToBuilder({
+        [componentName]: {
+          name: productData.name,
+          imageUrl: productData.imageUrl,
+          price: productData.price,
+        },
+      }),
+      navigate(-1),
+    );
+  };
+
   const itemsPerPage = 20;
   const totalPages = Math.ceil(data[0]?.length / itemsPerPage);
-
-  const toggleLeftSide = () => {
-    setShowLeftSide(!showLeftSide);
-  };
 
   const itemDescription = (description) => {
     if (typeof description === 'string') {
@@ -51,19 +65,22 @@ const ChooseComponents = () => {
         <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer flex items-center'>
           {/* Product Image */}
           <div className='w-1/5'>
-            <img
-              src={item.imageUrl || ''}
-              alt='Product Image'
-              className='w-full h-auto'
-              
-            />
+            <Link to={`/${createSlug(item.name)}`}>
+              <img
+                src={item.imageUrl || ''}
+                alt='Product Image'
+                className='w-full h-auto'
+              />
+            </Link>
           </div>
 
           <div className='w-3/5 p-4'>
             {/* Product Title */}
-            <h2 className='text-left text-lg font-semibold hover:text-blue-500'>
-              {item.name}
-            </h2>
+            <Link to={`/${createSlug(item.name)}`}>
+              <h2 className='text-left text-lg font-semibold hover:text-blue-500'>
+                {item.name}
+              </h2>
+            </Link>
 
             {/* Product Features */}
             <ul className='mt-2 flex flex-col'>
@@ -78,9 +95,15 @@ const ChooseComponents = () => {
             <div className='text-xl font-bold'>${item.price}</div>
 
             {/* Buy Now Button */}
-            <button className='bg-orange-500 text-white mt-4 py-2 rounded-full w-full hover:bg-orange-600'>
-              Add Now
-            </button>
+            <Link
+              to={{
+                pathname: `/pc-builder/${item.name}`, // Set the pathname for the link
+                state: { productData: item }, // Pass the product data as state
+              }}>
+              <button className='bg-orange-500 text-white mt-4 py-2 rounded-full w-full hover:bg-orange-600'>
+                Add Now
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -102,8 +125,6 @@ const ChooseComponents = () => {
     if (products && componentName) {
       // Filter the products array based on the presence of componentName key
       const filteredComponents = products.map((item) => item[componentName]);
-
-      console.log(filteredComponents, 'filteredComponents');
 
       // Now, filteredComponents contains only the objects with componentName key
       setData(filteredComponents);
@@ -235,20 +256,12 @@ const ChooseComponents = () => {
         {/* ... (Your left-side content here) */}
       </div>
 
-      {/* Mobile Toggle Menu */}
-      <div className='w-full md:hidden p-4 text-center'>
-        <button
-          onClick={toggleLeftSide}
-          className='bg-blue-500 text-white py-2 px-4 rounded-full'>
-          Toggle Left Side
-        </button>
-      </div>
-
       {/* Right Side (75% width) */}
       <div className='w-full md:w-3/4 p-4'>
         {/* Header with Filter and Show by Item Dropdowns */}
         {/* ... (Your header content here) */}
         <div className='flex justify-between'>
+          <Search />
           <div className='flex gap-5'>
             <DropdownButton name='Show' options={[30, 40, 60, 70, 90]} />
             <DropdownButton

@@ -4,10 +4,9 @@ import { BiSolidOffer } from 'react-icons/bi';
 import { FiUser } from 'react-icons/fi';
 import './Navbar.css';
 import CategoriesMenu from '../../components/categories-menu/CategoriesMenu';
+import Search from '../../utils/search/Search';
 
 const Navbar = () => {
- 
-
   return (
     <>
       <div className='bg-black text-white'>
@@ -19,16 +18,9 @@ const Navbar = () => {
             </Link>
           </div>
 
-        
-          
-
           {/* Search Section */}
           <div className='hidden md:block'>
-            <input
-              type='text'
-              placeholder='Search'
-              className='px-2 py-1 rounded-lg border border-gray-300 focus:outline-none'
-            />
+            <Search />
           </div>
 
           {/* Menu Items (visible on medium and larger screens) */}
