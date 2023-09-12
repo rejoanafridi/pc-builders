@@ -12,6 +12,8 @@ import ProductDetails from './components/product-details/ProductDetails';
 import PcBuilder from './components/pc-builder/PcBuilder';
 import ChooseComponents from './components/pc-builder/choosecomponents/ChooseComponents';
 
+import ProductCompare from './pages/compare/ProductCompare';
+
 function App() {
   return (
     <Provider store={store}>
@@ -54,6 +56,7 @@ function App() {
             <Route
               path='/pc-builder/choose-component/:componentName'
               element={<ChooseComponents />}></Route>
+            <Route path='/product/compare' element={<ProductCompare />}></Route>
           </Routes>
           <Footer />
         </BrowserRouter>

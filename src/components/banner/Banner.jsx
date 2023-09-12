@@ -1,8 +1,9 @@
 // components/Banner.js
 
 import React from 'react';
-import { Button, Carousel, Input } from 'antd';
+import { Button, Carousel } from 'antd';
 import Search from '../../utils/search/Search';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
   return (
@@ -52,9 +53,11 @@ const Banner = () => {
           <div className='mb-4 w-full md:w-2/3'>
             <Search />
           </div>
-          <Button className='bg-orange-500 text-white' type='dashed'>
-            View comparison
-          </Button>
+          <Link to='/product/compare'>
+            <Button className='bg-orange-500 text-white' type='dashed'>
+              View comparison
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

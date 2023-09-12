@@ -7,11 +7,12 @@ const ProductDetails = () => {
   console.log(productName);
   const [quantity, setQuantity] = useState(1);
   const [products, setProducts] = useState([]);
+  console.log(products, 'products')
   const [findProduct, setFindProduct] = useState({});
   console.log(findProduct);
 
   useEffect(() => {
-    fetch('/api/allProducts.json')
+    fetch('/api/allprod.json')
       .then((res) => res.json())
       .then((result) => setProducts(result));
   }, [productName]);
