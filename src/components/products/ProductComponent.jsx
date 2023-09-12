@@ -3,9 +3,14 @@ import Pagination from '../../utils/Paginate';
 import DropdownButton from '../../utils/dropdown/DropdownButton';
 import { Link } from 'react-router-dom';
 import slugify from 'slugify';
+import { useSelector } from 'react-redux';
+import SelectShowFilter from '../../utils/SelectShowFilter';
 
 const ProductsComponent = () => {
+  const { show, type } = useSelector((state) => state.filter);
   const path = window.location.pathname;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [selectType, setSelectType] = useState(type);
   const repath = path.replace('/', '');
   const [showLeftSide, setShowLeftSide] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -13,12 +18,10 @@ const ProductsComponent = () => {
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
 
-  const itemsPerPage = 12; // Adjust the number of products per page as needed
-  const totalPages = Math.ceil(data[0]?.length / itemsPerPage);
+  const itemsToDisplay = data[0];
 
-  const toggleLeftSide = () => {
-    setShowLeftSide(!showLeftSide);
-  };
+  // Adjust the number of products per page as needed
+  const totalPages = Math.ceil(data[0]?.length / itemsPerPage);
 
   const itemDescription = (description) => {
     if (typeof description === 'string') {
@@ -40,7 +43,7 @@ const ProductsComponent = () => {
     }).replace(/\//g, '-');
   };
 
-  const displayComponent = data[0]
+  const displayComponent = itemsToDisplay
     ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
       <div
@@ -90,6 +93,17 @@ const ProductsComponent = () => {
     setData(filteredComponents);
   }, [products, repath]);
 
+  useEffect(() => {
+    if (show) {
+      setItemsPerPage(show);
+    }
+  }, [show]);
+  useEffect(() => {
+    if (type) {
+      setSelectType(type);
+    }
+  }, [type]);
+
   return (
     <div className='flex flex-wrap'>
       <div
@@ -130,11 +144,8 @@ const ProductsComponent = () => {
             {repath.toUpperCase()}
           </h1>
           <div className='flex gap-5'>
-            <DropdownButton name='Show' options={[30, 40, 60, 70, 90]} />
-            <DropdownButton
-              name='Sort'
-              options={['Default', 'Price Low-High', 'Price High-Low']}
-            />
+            <DropdownButton name='Show' options={[10, 30, 40, 60, 70, 90]} />
+            <SelectShowFilter />
           </div>
         </div>
         <hr className='my-4 border-gray-300' />
