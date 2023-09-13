@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import slugify from 'slugify';
 import { useSelector } from 'react-redux';
 import SelectShowFilter from '../../utils/SelectShowFilter';
+import Loader from '../../utils/loader/Loader';
 
 const ProductsComponent = () => {
   const { show, type } = useSelector((state) => state.filter);
@@ -14,6 +15,7 @@ const ProductsComponent = () => {
   const repath = path.replace('/', '');
   const [showLeftSide, setShowLeftSide] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
@@ -82,6 +84,9 @@ const ProductsComponent = () => {
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 200); //
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
@@ -106,54 +111,66 @@ const ProductsComponent = () => {
 
   return (
     <div className='flex flex-wrap'>
-      <div
-        className={`${
-          showLeftSide ? 'w-1/2 lg:w-1/4' : 'hidden md:block w-1/4'
-        } shadow-md bg-white p-4`}>
-        {/* Price Range Slider */}
-        <div className='space-y-2'>
-          {/* Availability Section */}
-          <div className='overflow-hidden rounded border border-gray-300'>
-            <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
-              <span className='text-sm font-medium'> Availability </span>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <div
+            className={`${
+              showLeftSide ? 'w-1/2 lg:w-1/4' : 'hidden md:block w-1/4'
+            } shadow-md bg-white p-4`}>
+            {/* Price Range Slider */}
+            <div className='space-y-2'>
+              {/* Availability Section */}
+              <div className='overflow-hidden rounded border border-gray-300'>
+                <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
+                  <span className='text-sm font-medium'> Availability </span>
+                </div>
+
+                <div className='border-t border-gray-200 bg-white'>
+                  {/* ... (Your availability filter content here) */}
+                </div>
+              </div>
+
+              {/* Price Section */}
+              <div className='overflow-hidden rounded border border-gray-300'>
+                <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
+                  <span className='text-sm font-medium'> Price </span>
+                </div>
+
+                <div className='border-t border-gray-200 bg-white'>
+                  {/* ... (Your price filter content here) */}
+                </div>
+              </div>
             </div>
 
-            <div className='border-t border-gray-200 bg-white'>
-              {/* ... (Your availability filter content here) */}
-            </div>
+            {/* ... (Your left-side content here) */}
           </div>
 
-          {/* Price Section */}
-          <div className='overflow-hidden rounded border border-gray-300'>
-            <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
-              <span className='text-sm font-medium'> Price </span>
+          <div className='w-full md:w-3/4 p-4'>
+            <div className='flex justify-between items-center'>
+              <h1 className='font-bold text-orange-500 text-2xl'>
+                {repath.toUpperCase()}
+              </h1>
+              <div className='flex gap-5'>
+                <DropdownButton
+                  name='Show'
+                  options={[10, 30, 40, 60, 70, 90]}
+                />
+                <SelectShowFilter />
+              </div>
             </div>
-
-            <div className='border-t border-gray-200 bg-white'>
-              {/* ... (Your price filter content here) */}
-            </div>
+            <hr className='my-4 border-gray-300' />
+            <div className='flex flex-wrap mx-2'>{displayComponent}</div>
+            {totalPages > 1 && (
+              <Pagination
+                pageCount={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </div>
-        </div>
-
-        {/* ... (Your left-side content here) */}
-      </div>
-
-      <div className='w-full md:w-3/4 p-4'>
-        <div className='flex justify-between items-center'>
-          <h1 className='font-bold text-orange-500 text-2xl'>
-            {repath.toUpperCase()}
-          </h1>
-          <div className='flex gap-5'>
-            <DropdownButton name='Show' options={[10, 30, 40, 60, 70, 90]} />
-            <SelectShowFilter />
-          </div>
-        </div>
-        <hr className='my-4 border-gray-300' />
-        <div className='flex flex-wrap mx-2'>{displayComponent}</div>
-        {totalPages > 1 && (
-          <Pagination pageCount={totalPages} onPageChange={handlePageChange} />
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };

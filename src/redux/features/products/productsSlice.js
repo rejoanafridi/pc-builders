@@ -6,7 +6,7 @@ const productSlice = createSlice({
   name: 'product',
   initialState: {
     builderProduct: null,
-    addedProducts: {}, // Add an array to store added products
+    addedProducts: [], // Add an array to store added products
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -16,7 +16,8 @@ const productSlice = createSlice({
       state.builderProduct = null;
     },
     addProductToBuilder: (state, action) => {
-      state.addedProducts = action.payload; // Add a product to the array
+   
+      state.addedProducts.push(action.payload); // Add a product to the array
     },
   },
 });

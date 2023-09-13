@@ -3,7 +3,7 @@ import PrimaryComponent from './primarycomponent/PrimaryComponent';
 import { useSelector } from 'react-redux';
 
 const PcBuilder = () => {
-  const addedProducts = useSelector((state) => state.products.addedProducts);
+  const { addedProducts } = useSelector((state) => state.products);
 
   const [product, setProduct] = useState({
     coreComponents: [
@@ -88,30 +88,33 @@ const PcBuilder = () => {
   console.log(product);
 
   useEffect(() => {
-    // Use the map function to update coreComponents in an immutable way
-    const updatedCoreComponents = product.coreComponents.map((component) => {
-      // Check if there is a matching key in addedProducts
-      const componentName = component.name.toLowerCase();
-      if (addedProducts[componentName]) {
-        // Merge data from addedProducts into the current component
-        return {
-          ...component,
-          data: addedProducts[componentName],
-        };
-      }
-      // If no match found, return the original component
-      return component;
-    });
+    // Create a copy of the product
+    const updatedProduct = { ...product };
 
-    // Create a new product object with the updated coreComponents
-    const updatedProduct = {
-      ...product,
-      coreComponents: updatedCoreComponents,
-    };
+    // Use a map function to update coreComponents in an immutable way
+    updatedProduct.coreComponents = updatedProduct.coreComponents.map(
+      (component) => {
+        const componentName = component.name.toLowerCase();
+
+        const matchingAddedProduct = addedProducts.find(
+          (addedProduct) => addedProduct.componentName === componentName,
+        );
+
+        if (matchingAddedProduct) {
+          // If a matching object is found, merge its data into the current component
+          component.data = matchingAddedProduct.data;
+        }
+
+        return component;
+      },
+    );
+
+    if (updatedProduct) {
+      setProduct(updatedProduct);
+    }
 
     // Update the product state with the new object
-    setProduct(updatedProduct);
-  }, [addedProducts]);
+  }, []);
 
   return (
     <div className='container mx-auto border min-h-screen my-4'>
