@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { RiDeleteBin4Line } from 'react-icons/ri';
+
 import { Link } from 'react-router-dom';
 
 const PrimaryComponent = ({ props, name }) => {
