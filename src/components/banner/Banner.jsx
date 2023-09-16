@@ -5,32 +5,8 @@ import { Button, Carousel } from 'antd';
 
 import { Link } from 'react-router-dom';
 import SelectSearchProduct from '../../utils/SelectSearchProduct/SelectSearchProduct';
-// import {
-//   addProductCompareFirst,
-//   addProductCompareSecond,
-// } from '../../redux/features/products/productsSlice';
-// import { useDispatch } from 'react-redux';
 
 const Banner = () => {
-  // const dispatch = useDispatch();
-  // const [selectedProduct1, setSelectedProduct1] = useState(null);
-  // const [selectedProduct2, setSelectedProduct2] = useState(null);
-
-  // Callback function to receive selectProduct from SelectSearchProduct
-  // const handleProductSelect1 = (product) => {
-  //   setSelectedProduct1(product);
-  // };
-  // const handleProductSelect2 = (product) => {
-  //   setSelectedProduct2(product);
-  // };
-
-  // useEffect(() => {
-  //   dispatch(addProductCompareFirst(selectedProduct1));
-  // }, [dispatch, selectedProduct1]);
-  // useEffect(() => {
-  //   dispatch(addProductCompareSecond(selectedProduct2));
-  // }, [dispatch, selectedProduct2]);
-
   return (
     <div className='container mx-auto py-8 px-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>

@@ -25,7 +25,7 @@ const ChooseComponents = () => {
     event.preventDefault();
     // Dispatch action to set the selected product
     dispatch(
-      addProductToBuilder({ [componentName]: productData }),
+      addProductToBuilder({ key: componentName, value: productData }),
       navigate(-1),
     );
   };

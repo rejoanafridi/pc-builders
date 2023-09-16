@@ -6,7 +6,7 @@ const productSlice = createSlice({
   name: 'product',
   initialState: {
     builderProduct: null,
-    addedProducts: [], // Add an array to store added products
+    buildComponents: {},
     productCompare: {},
   },
   reducers: {
@@ -17,7 +17,8 @@ const productSlice = createSlice({
       state.builderProduct = null;
     },
     addProductToBuilder: (state, action) => {
-      state.addedProducts.push(action.payload); // Add a product to the array
+      const { key, value } = action.payload;
+      state.buildComponents[key] = value; // Add a product to the array
     },
     addProductCompareFirst: (state, action) => {
       state.productCompare.selectFirstProduct = action.payload; // Add a product to the array

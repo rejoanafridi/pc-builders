@@ -89,7 +89,7 @@ const SelectSearchProduct = ({ compare, banner }) => {
         placeholder='Search'
         className='px-2 py-1 rounded-lg border border-gray-300 focus:outline-none w-full text-black'
         onChange={(e) => handleInputChange(e)}
-        value={searchTerm || selectProduct?.name}
+        value={compare ? '' : searchTerm || selectProduct?.name}
         ref={inputRef}
       />
       {showResults && (
@@ -102,7 +102,6 @@ const SelectSearchProduct = ({ compare, banner }) => {
               <img src={result.imageUrl} alt='' height={40} width={40} />
               <div>
                 <p>{result.name}</p>
-                <p className='text-orange-500 '>{result.price}</p>
               </div>
             </div>
           ))}
