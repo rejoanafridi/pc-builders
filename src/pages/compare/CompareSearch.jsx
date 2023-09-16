@@ -7,13 +7,15 @@ import {
 } from '../../redux/features/products/productsSlice';
 import { useDispatch } from 'react-redux';
 
-const SelectSearchProduct = ({ compare, banner }) => {
+const CompareSearch = ({ compare }) => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
   const [showResults, setShowResults] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState([]);
   const [selectProduct, setSelectProduct] = useState(false);
+  console.log(selectProduct);
+
 
   const inputRef = useRef(null);
   const containerRef = useRef(null);
@@ -30,6 +32,7 @@ const SelectSearchProduct = ({ compare, banner }) => {
     const term = e.target.value;
     setSearchTerm(term);
     debouncedSearch(term);
+    // setSelectProduct(false);
   };
 
   useEffect(() => {
@@ -54,6 +57,15 @@ const SelectSearchProduct = ({ compare, banner }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (compare === 'firstSearch') {
+      dispatch(addProductCompareFirst(selectProduct));
+    }
+    if (compare === 'secondSearch') {
+      dispatch(addProductCompareSecond(selectProduct));
+    }
+  }, [dispatch, selectProduct, compare]);
+
   const handleClickOutside = (e) => {
     if (
       containerRef.current &&
@@ -69,17 +81,7 @@ const SelectSearchProduct = ({ compare, banner }) => {
     setShowResults(false);
     setSearchTerm('');
     setSelectProduct(result);
-
-    if (compare === 'firstSearch') {
-      dispatch(addProductCompareFirst(result));
-    } else if (compare === 'secondSearch') {
-      dispatch(addProductCompareSecond(result));
-    } else if (banner === 'banner-fs') {
-      // Handle banner cases here
-      dispatch(addProductCompareFirst(result));
-    } else {
-      dispatch(addProductCompareSecond(result));
-    }
+    // Call the callback function to pass selectProduct to the parent component
   };
 
   return (
@@ -112,4 +114,4 @@ const SelectSearchProduct = ({ compare, banner }) => {
   );
 };
 
-export default SelectSearchProduct;
+export default CompareSearch;

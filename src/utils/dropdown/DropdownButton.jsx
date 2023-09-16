@@ -13,9 +13,7 @@ const DropdownButton = ({ name, options }) => {
     dispatch(setShowType(selectedOption));
   }, [dispatch, selectedOption]);
 
-  useEffect(() => {
-    dispatch(setShowType(selectedOption));
-  }, [dispatch, selectedOption]);
+
 
   const openDropdown = () => {
     setIsOpen(true);

@@ -7,6 +7,8 @@ const ProductCompare = () => {
   const { productCompare } = useSelector((state) => state.products);
   const [data, setData] = useState(null);
 
+  console.log(productCompare)
+
   let specifications = {
     ...data?.selectSecondProduct?.specifications,
     ...data?.selectFirstProduct?.specifications,
