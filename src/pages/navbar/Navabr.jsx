@@ -20,7 +20,7 @@ const Navbar = () => {
 
           {/* Search Section */}
           <div className='hidden md:block'>
-            <Search />
+            <Search clickable={true} />
           </div>
 
           {/* Menu Items (visible on medium and larger screens) */}

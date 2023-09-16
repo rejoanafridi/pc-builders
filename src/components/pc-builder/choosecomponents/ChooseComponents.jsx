@@ -21,16 +21,11 @@ const ChooseComponents = () => {
 
   const [products, setProducts] = useState([]);
 
-  const handleAddNowClick = (productData) => {
+  const handleAddNowClick = (event, productData) => {
+    event.preventDefault();
     // Dispatch action to set the selected product
     dispatch(
-      addProductToBuilder({
-        [componentName]: {
-          name: productData.name,
-          imageUrl: productData.imageUrl,
-          price: productData.price,
-        },
-      }),
+      addProductToBuilder({ key: componentName, value: productData }),
       navigate(-1),
     );
   };
@@ -97,7 +92,7 @@ const ChooseComponents = () => {
             {/* Buy Now Button */}
             <button
               className='bg-orange-500 text-white mt-4 py-2 rounded-full w-full hover:bg-orange-600'
-              onClick={() => handleAddNowClick(item)}>
+              onClick={(event) => handleAddNowClick(event, item)}>
               Add Now
             </button>
           </div>

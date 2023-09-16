@@ -1,8 +1,10 @@
 // components/Banner.js
 
-import React from 'react';
-import { Button, Carousel, Input } from 'antd';
-import Search from '../../utils/search/Search';
+import React, { useEffect, useState } from 'react';
+import { Button, Carousel } from 'antd';
+
+import { Link } from 'react-router-dom';
+import SelectSearchProduct from '../../utils/SelectSearchProduct/SelectSearchProduct';
 
 const Banner = () => {
   return (
@@ -47,14 +49,22 @@ const Banner = () => {
             </h2>
           </div>
           <div className='mb-4 w-full md:w-2/3'>
-            <Search />
+            <SelectSearchProduct
+              // onSelectProduct={handleProductSelect1}
+              banner='banner-fs'
+            />
           </div>
           <div className='mb-4 w-full md:w-2/3'>
-            <Search />
+            <SelectSearchProduct
+              // onSelectProduct={handleProductSelect2}
+              banner='banner-ss'
+            />
           </div>
-          <Button className='bg-orange-500 text-white' type='dashed'>
-            View comparison
-          </Button>
+          <Link to='/product/compare'>
+            <Button className='bg-orange-500 text-white' type='dashed'>
+              View comparison
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

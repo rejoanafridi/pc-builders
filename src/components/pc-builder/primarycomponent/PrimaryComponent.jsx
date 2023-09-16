@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { RiDeleteBin4Line } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 
 const PrimaryComponent = ({ props, name }) => {
+  const { buildComponents } = useSelector((state) => state.products);
+  console.log(buildComponents);
   return (
     <>
       <div className='bg-gray-600'>
@@ -13,13 +17,14 @@ const PrimaryComponent = ({ props, name }) => {
       {props.map((component, id) => {
         return (
           <React.Fragment key={id}>
-            {component.data ? (
+            {buildComponents[component?.name] &&
+            Object.keys(buildComponents[component?.name]).length > 0 ? (
               <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 border px-5 py-2'>
                 <div className='rounded-lg lg:col-span-2'>
                   <div className='items flex gap-5'>
                     <div className=''>
                       <img
-                        src={component?.data.imageUrl}
+                        src={buildComponents[component?.name].imageUrl}
                         alt=''
                         height={50}
                         width={50}
@@ -28,11 +33,11 @@ const PrimaryComponent = ({ props, name }) => {
                     <div className='flex flex-row justify-between items-center  gap-2 w-full'>
                       <div>
                         <h2 className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl'>
-                          {component.name}
+                          {buildComponents[component?.name].name}
                         </h2>
-                        <p>{component.data.name}</p>
+                        {/* <p>{buildComponents[component?.name].name}</p> */}
                       </div>
-                      <p> Price {component?.data?.price} </p>
+                      <p> Price {buildComponents[component?.name]?.price} </p>
                     </div>
                   </div>
                 </div>
@@ -49,8 +54,8 @@ const PrimaryComponent = ({ props, name }) => {
                     <div className=''>
                       <img
                         src={
-                          component?.data
-                            ? component?.data.imageUrl
+                          buildComponents[component?.name]
+                            ? buildComponents[component?.name].imageUrl
                             : component.icon
                         }
                         alt=''
@@ -69,7 +74,11 @@ const PrimaryComponent = ({ props, name }) => {
                           <div className='h-2 bg-gray-300'></div>
                         )}
                       </div>
-                      {component?.data ? <p> {component?.data?.price} </p> : ''}
+                      {buildComponents[component?.name] ? (
+                        <p> {buildComponents[component?.name]?.price} </p>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </div>
                 </div>
