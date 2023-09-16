@@ -1,7 +1,23 @@
-import React from 'react';
-import Search from '../../utils/search/Search';
+import React, { useEffect, useState } from 'react';
+
+import { useSelector } from 'react-redux';
+import SelectSearchProduct from '../../utils/SelectSearchProduct/SelectSearchProduct';
 
 const ProductCompare = () => {
+  const { productCompare } = useSelector((state) => state.products);
+  const [data, setData] = useState(null);
+
+  let specifications = {
+    ...data?.selectSecondProduct?.specifications,
+    ...data?.selectFirstProduct?.specifications,
+  };
+  console.log(specifications);
+  const keys = Object.keys(specifications);
+  console.log(keys);
+
+  useEffect(() => {
+    setData(productCompare);
+  }, [productCompare]);
   return (
     <div className='bg-gray-100 py-8'>
       <div className='container mx-auto'>
@@ -22,49 +38,87 @@ const ProductCompare = () => {
               </dt>
               <dd className='text-gray-700 sm:col-span-1 '>
                 <div className='bg-white p-6  shadow-md border flex items-center flex-col gap-3'>
-                  <Search />
-                  <img
-                    src='https://www.startech.com.bd/image/cache/catalog/cable/acefast/c3-04/c3-04-01-228x228.webp'
-                    alt=''
-                  />
-                  <h2 className='text-xl font-semibold mb-4'>Product 2</h2>
-                  <ul>
-                    <li className='mb-2'>Value 1 for Product 2</li>
-                    <li className='mb-2'>Value 2 for Product 2</li>
-                    <li className='mb-2'>Value 3 for Product 2</li>
-                    {/* Add more values as needed */}
-                  </ul>
-                  <p>Price</p>
+                  <SelectSearchProduct compare={'firstSearch'} />
+                  <img src={data?.selectFirstProduct?.imageUrl} alt='' />
+                  <h2 className='text-xl font-semibold mb-4'>
+                    {data?.selectFirstProduct?.name}
+                  </h2>
+
+                  <p>Price {data?.selectFirstProduct?.price}</p>
                 </div>
               </dd>
               <dd className='text-gray-700 sm:col-span-1'>
                 <div className='bg-white p-6  shadow-md border flex items-center flex-col gap-3'>
-                  <Search />
-                  <img
-                    src='https://www.startech.com.bd/image/cache/catalog/cable/acefast/c3-04/c3-04-01-228x228.webp'
-                    alt=''
-                  />
-                  <h2 className='text-xl font-semibold mb-4'>Product 2</h2>
-                  <ul>
-                    <li className='mb-2'>Value 1 for Product 2</li>
-                    <li className='mb-2'>Value 2 for Product 2</li>
-                    <li className='mb-2'>Value 3 for Product 2</li>
-                    {/* Add more values as needed */}
-                  </ul>
-                  <p>price</p>
+                  <SelectSearchProduct compare={'secondSearch'} />
+                  <img src={data?.selectSecondProduct?.imageUrl} alt='' />
+                  <h2 className='text-xl font-semibold mb-4'>
+                    {data?.selectSecondProduct?.name}
+                  </h2>
+
+                  <p>Price {data?.selectSecondProduct?.price}</p>
                 </div>
               </dd>
             </div>
 
-            <div className='grid grid-cols-1 gap-1 px-3 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4 hover:bg-gray-200'>
-              <dt className='font-medium text-gray-900'>Title</dt>
-              <dd className='text-gray-700 sm:col-span-1'>Mr</dd>
-              <dd className='text-gray-700 sm:col-span-1'>Mr</dd>
+            <div className='grid grid-cols-1 gap-1  py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4 hover:bg-gray-200'>
+              <dt className='font-medium text-gray-900'>Model</dt>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {' '}
+                {data?.selectFirstProduct?.additionalDetails?.keyFeatures[1]}
+              </dd>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {data?.selectSecondProduct?.additionalDetails?.keyFeatures[1]}
+              </dd>
             </div>
             <div className='grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
-              <dt className='font-medium text-gray-900'>Title</dt>
-              <dd className='text-gray-700 sm:col-span-1'>Mr</dd>
-              <dd className='text-gray-700 sm:col-span-1'>Mr</dd>
+              <dt className='font-medium text-gray-900'>Brand</dt>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {data?.selectFirstProduct?.additionalDetails?.brand}
+              </dd>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {' '}
+                {data?.selectSecondProduct?.additionalDetails?.brand}
+              </dd>
+            </div>
+            <div className='grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
+              <dt className='font-medium text-gray-900'>Availability</dt>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {data?.selectFirstProduct?.additionalDetails?.status}
+              </dd>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {data?.selectSecondProduct?.additionalDetails?.status}
+              </dd>
+            </div>
+            <div className='grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
+              <dt className='font-medium text-gray-900'>Rating</dt>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {data?.selectFirstProduct?.additionalDetails?.rating}
+              </dd>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {data?.selectSecondProduct?.additionalDetails?.rating}
+              </dd>
+            </div>
+            <div className='grid grid-cols-1 gap-1 py-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4'>
+              <dt className='font-medium text-gray-900'>Summary</dt>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {' '}
+                {data?.selectFirstProduct?.additionalDetails?.keyFeatures?.map(
+                  (item) => (
+                    <>
+                      <li>{item}</li>
+                    </>
+                  ),
+                )}
+              </dd>
+              <dd className='text-gray-700 sm:col-span-1'>
+                {data?.selectSecondProduct?.additionalDetails?.keyFeatures?.map(
+                  (item) => (
+                    <>
+                      <li>{item}</li>
+                    </>
+                  ),
+                )}
+              </dd>
             </div>
           </dl>
         </div>

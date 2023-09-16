@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react';
 import debounce from 'lodash.debounce';
-import slugify from 'slugify';
-import { Link } from 'react-router-dom';
 
-const Search = () => {
+const SelectSearchProduct = ({ onSelectProduct }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showResults, setShowResults] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState([]);
+  const [selectProduct, setSelectProduct] = useState(false);
+  console.log(selectProduct);
   const inputRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -24,6 +24,7 @@ const Search = () => {
     const term = e.target.value;
     setSearchTerm(term);
     debouncedSearch(term);
+    setSelectProduct(false);
   };
 
   useEffect(() => {
@@ -48,14 +49,6 @@ const Search = () => {
     };
   }, []);
 
-  const createSlug = (text) => {
-    return slugify(text, {
-      replacement: '-',
-      remove: /[*+~.()'"!:@]/g,
-      lower: true,
-    }).replace(/\//g, '-');
-  };
-
   const handleClickOutside = (e) => {
     if (
       containerRef.current &&
@@ -66,9 +59,15 @@ const Search = () => {
     }
   };
 
-  const handleLinkClick = () => {
+  const handleProductSelect = (e, result) => {
+    e.preventDefault();
     setShowResults(false);
     setSearchTerm('');
+    setSelectProduct(result);
+    // Call the callback function to pass selectProduct to the parent component
+    if (onSelectProduct) {
+      onSelectProduct(result);
+    }
   };
 
   return (
@@ -78,7 +77,7 @@ const Search = () => {
         placeholder='Search'
         className='px-2 py-1 rounded-lg border border-gray-300 focus:outline-none w-full text-black'
         onChange={(e) => handleInputChange(e)}
-        value={searchTerm}
+        value={searchTerm || selectProduct?.name}
         ref={inputRef}
       />
       {showResults && (
@@ -86,6 +85,7 @@ const Search = () => {
           {searchResults?.slice(0, 10).map((result, index) => (
             <div
               key={index}
+              onClick={(e) => handleProductSelect(e, result)}
               className='p-2 cursor-pointer hover:bg-gray-100 flex gap-3'>
               <img src={result.imageUrl} alt='' height={40} width={40} />
               <div>
@@ -96,31 +96,8 @@ const Search = () => {
           ))}
         </div>
       )}
-      {showResults && (
-        <div className='absolute left-0 max-h-80 overflow-y-auto text-black w-full bg-white border border-gray-300 rounded-lg shadow-lg'>
-          {searchResults?.slice(0, 10).map((result, index) => (
-            <div key={index} className='p-2  hover:bg-gray-100 flex gap-3'>
-              <Link
-                to={`/${createSlug(result.name)}`}
-                onClick={handleLinkClick} // Add click event to hide results
-              >
-                <img src={result.imageUrl} alt='' height={80} width={80} />
-              </Link>
-              <div>
-                <Link
-                  to={`/${createSlug(result.name)}`}
-                  onClick={handleLinkClick} // Add click event to hide results
-                >
-                  <p>{result.name}</p>
-                </Link>
-                <p className='text-orange-500 '>{result.price}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
 
-export default Search;
+export default SelectSearchProduct;
