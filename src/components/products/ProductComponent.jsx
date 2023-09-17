@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Pagination from '../../utils/Paginate';
 import DropdownButton from '../../utils/dropdown/DropdownButton';
 import { Link } from 'react-router-dom';
@@ -48,35 +48,37 @@ const ProductsComponent = () => {
   const displayComponent = itemsToDisplay
     ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
-      <div
-        key={index}
-        className='w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-2 mb-4'>
-        <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer h-full '>
-          <Link to={`/${createSlug(item.name)}`}>
-            <img
-              src={item.imageUrl || ''}
-              alt='Product Image'
-              className='mx-auto mb-2'
-              width={250}
-              height={150}
-            />
-            <h2 className='text-center text-lg font-semibold hover:text-blue-500'>
-              {item.name}
-            </h2>
-            <ul className='mt-2 flex flex-col'>
-              {itemDescription(item.description).map((li, index) => (
-                <li key={index}>{li}</li>
-              ))}
-            </ul>
-            <div className='text-center text-xl mt-4 font-bold'>
-              ${item.price}
+      <React.Fragment key={index}>
+        <div className='w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-2 mb-4'>
+          <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer h-full flex flex-col'>
+            <Link to={`/${createSlug(item.name)}`}>
+              <img
+                src={item.imageUrl || ''}
+                alt='Product Image'
+                className='mx-auto mb-2'
+                width={250}
+                height={150}
+              />
+              <h2 className='text-center text-lg font-semibold hover:text-blue-500'>
+                {item.name}
+              </h2>
+              <ul className='mt-2 flex flex-col'>
+                {itemDescription(item.description).map((li, index) => (
+                  <li key={index}>{li}</li>
+                ))}
+              </ul>
+              <div className='text-center text-xl mt-auto font-bold'>
+                ${item.price}
+              </div>
+            </Link>
+            <div className='mt-auto'>
+              <button className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'>
+                Buy Now
+              </button>
             </div>
-            <button className='bg-orange-500 text-white mt-auto py-2 rounded-full w-full hover:bg-orange-600'>
-              Buy Now
-            </button>
-          </Link>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     ));
 
   useEffect(() => {
@@ -162,13 +164,13 @@ const ProductsComponent = () => {
             </div>
             <hr className='my-4 border-gray-300' />
             <div className='flex flex-wrap mx-2'>{displayComponent}</div>
-            {totalPages > 1 && (
-              <Pagination
-                pageCount={totalPages}
-                onPageChange={handlePageChange}
-              />
-            )}
           </div>
+          {totalPages > 1 && (
+            <Pagination
+              pageCount={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </>
       )}
     </div>
