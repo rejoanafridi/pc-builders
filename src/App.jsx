@@ -1,7 +1,8 @@
 import { Provider } from 'react-redux';
 import './App.css';
 import { store } from './redux/store';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navabr from './pages/navbar/Navabr';
 import Home from './pages/home/Home';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -59,13 +60,14 @@ function App() {
               path='/pc-builder/choose-component/:componentName'
               element={<ChooseComponents />}></Route>
             <Route path='/product/compare' element={<ProductCompare />}></Route>
-            <Route path='/checkout/cart' element={<Cart />}></Route>
+            <Route path='/cart' element={<Cart />}></Route>
             <Route
               path='*'
               element={<ErrorPage />} // Replace with your error component
             />
           </Routes>
           <Footer />
+          <ToastContainer position='top-right' autoClose={2000} />
         </BrowserRouter>
       </div>
     </Provider>

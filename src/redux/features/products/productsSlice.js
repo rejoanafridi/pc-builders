@@ -8,6 +8,7 @@ const productSlice = createSlice({
     builderProduct: null,
     buildComponents: {},
     productCompare: {},
+    productCart: [],
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -26,6 +27,22 @@ const productSlice = createSlice({
     addProductCompareSecond: (state, action) => {
       state.productCompare.selectSecondProduct = action.payload; // Add a product to the array
     },
+
+    addToProductCart: (state, action) => {
+      const productToAdd = action.payload;
+      console.log(productToAdd);
+      const existingProduct = state.productCart.find(
+        (product) => product.id === productToAdd.id,
+      );
+
+      if (existingProduct) {
+        // If the product already exists in the cart, update its quantity
+        existingProduct.quantity += productToAdd.quantity;
+      } else {
+        // If it's a new product, add it to the cart
+        state.productCart.push(productToAdd);
+      }
+    },
   },
 });
 
@@ -35,6 +52,7 @@ export const {
   addProductToBuilder,
   addProductCompareFirst,
   addProductCompareSecond,
+  addToProductCart,
 } = productSlice.actions;
 
 export default productSlice.reducer;

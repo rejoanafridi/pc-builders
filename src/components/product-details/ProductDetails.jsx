@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import slugify from 'slugify';
 import Loader from '../../utils/loader/Loader';
+import { useDispatch } from 'react-redux';
+import { addToProductCart } from '../../redux/features/products/productsSlice';
+import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
+  const dispatch = useDispatch();
   const { productName } = useParams();
-  console.log(productName);
   const [quantity, setQuantity] = useState(1);
   const [products, setProducts] = useState([]);
-  console.log(products, 'products');
+
   const [findProduct, setFindProduct] = useState({});
   console.log(findProduct);
 
@@ -42,6 +45,35 @@ const ProductDetails = () => {
       setFindProduct(productFound);
     }
   }, [products, productName]);
+
+  // related products
+  let relatedProducts = products.filter(
+    (relatedProduct) => relatedProduct !== findProduct,
+  );
+
+  const handleBuyNow = (e, findProduct) => {
+    e.preventDefault();
+    dispatch(
+      addToProductCart({
+        id: findProduct.uuid,
+        productImage: findProduct.imageUrl,
+        productName: findProduct.name,
+        productModel: findProduct?.additionalDetails?.keyFeatures[1],
+        quantity: quantity,
+        unitPrice: findProduct?.additionalDetails?.regularPrice,
+      }),
+    );
+    toast.success('Product Added to card successfully', {
+      position: 'top-center',
+      autoClose: 1200,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+  };
 
   let template;
   if (findProduct) {
@@ -92,28 +124,43 @@ const ProductDetails = () => {
                 {' '}
                 Quantity{' '}
               </label>
+              {findProduct?.additionalDetails?.status === 'In Stock' ? (
+                <>
+                  <div className='flex items-center border border-gray-200 rounded w-32'>
+                    <button
+                      type='button'
+                      onClick={() => setQuantity(quantity - 1)}
+                      disabled={quantity <= 1}
+                      className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
+                      -
+                    </button>
 
-              <div className='flex items-center border border-gray-200 rounded w-32'>
-                <button
-                  type='button'
-                  className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
-                  -
-                </button>
+                    <input
+                      type='number'
+                      id='Quantity'
+                      value={quantity} // Controlled by state
+                      onChange={(e) => setQuantity(e.target.value)} // Update the state on change
+                      className='h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
+                    />
 
-                <input
-                  type='number'
-                  id='Quantity'
-                  value={quantity} // Controlled by state
-                  onChange={(e) => setQuantity(e.target.value)} // Update the state on change
-                  className='h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
-                />
-
-                <button
-                  type='button'
-                  className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
-                  +
-                </button>
-              </div>
+                    <button
+                      type='button'
+                      onClick={() => setQuantity(quantity + 1)}
+                      className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
+                      +
+                    </button>
+                  </div>
+                  <button
+                    className='mt-3 bg-orange-500 text-white px-3 py-2 w-64 hover:bg-orange-400'
+                    onClick={(e) => handleBuyNow(e, findProduct)}>
+                    Buy now
+                  </button>{' '}
+                </>
+              ) : (
+                <div className='w-60 h-10 leading-10 text-center text-white transition  bg-orange-400'>
+                  Out Of Stock
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -192,52 +239,35 @@ const ProductDetails = () => {
                   <h1 className='text-center font-bold text-xl text-orange-500'>
                     Related Products Details
                   </h1>
-                  <div className='bg-white p-4 rounded-lg shadow-md flex flex-row items-center'>
-                    {/* Product Image */}
-                    <div className='w-24 h-24'>
-                      <img
-                        src='https://www.startech.com.bd/image/cache/catalog/monitor/asus/va249he/va249he-80x80.jpg'
-                        width={80}
-                        height={80}
-                        alt='image'
-                        className='w-full h-full object-cover'
-                      />
-                    </div>
+                  {relatedProducts.slice(0, 3).map((relatedProduct, id) => (
+                    <React.Fragment key={id}>
+                      <div className='bg-white p-4 rounded-lg shadow-md flex flex-row items-center'>
+                        {/* Product Image */}
+                        <div className='w-24 h-24'>
+                          <img
+                            src={relatedProduct?.imageUrl}
+                            alt='image'
+                            className='w-full h-full object-cover'
+                          />
+                        </div>
 
-                    {/* Product Details */}
-                    <div className='ml-4 flex-grow'>
-                      <h2 className='text-lg font-semibold'>asus</h2>
+                        {/* Product Details */}
+                        <div className='ml-4 flex-grow'>
+                          <h2 className='text-lg font-semibold'>
+                            {relatedProduct?.name}
+                          </h2>
 
-                      <p className='text-gray-600'>200</p>
+                          <p className='text-gray-600'>
+                            {relatedProduct?.price}
+                          </p>
 
-                      <button className='bg-blue-500 text-white px-4 py-2 rounded-md mt-2'>
-                        Compare
-                      </button>
-                    </div>
-                  </div>
-                  <div className='bg-white p-4 rounded-lg shadow-md flex flex-row items-center'>
-                    {/* Product Image */}
-                    <div className='w-24 h-24'>
-                      <img
-                        src='https://www.startech.com.bd/image/cache/catalog/monitor/asus/va249he/va249he-80x80.jpg'
-                        width={80}
-                        height={80}
-                        alt='image'
-                        className='w-full h-full object-cover'
-                      />
-                    </div>
-
-                    {/* Product Details */}
-                    <div className='ml-4 flex-grow'>
-                      <h2 className='text-lg font-semibold'>asus</h2>
-
-                      <p className='text-gray-600'>200</p>
-
-                      <button className='bg-blue-500 text-white px-4 py-2 rounded-md mt-2'>
-                        Compare
-                      </button>
-                    </div>
-                  </div>
+                          <button className='bg-blue-500 text-white px-4 py-2 rounded-md mt-2'>
+                            Compare
+                          </button>
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
             </section>

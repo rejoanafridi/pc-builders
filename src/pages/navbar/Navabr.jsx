@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { GiElectric } from 'react-icons/gi';
-import { BiSolidOffer } from 'react-icons/bi';
+import { BiSolidCartDownload, BiSolidOffer } from 'react-icons/bi';
 import { FiUser } from 'react-icons/fi';
 import './Navbar.css';
 import CategoriesMenu from '../../components/categories-menu/CategoriesMenu';
 import Search from '../../utils/search/Search';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+  const { productCart } = useSelector((state) => state.products);
   return (
     <>
       <div className='bg-black text-white'>
@@ -33,14 +35,7 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
-            <div className='flex justify-center align-center gap-5'>
-              <GiElectric className='text-orange-700' size={32} />
-              <div>
-                <Link to='/gadgets'>
-                  <p className='text-2xl'>Gadget</p>
-                </Link>
-              </div>
-            </div>
+
             <div className='flex justify-center align-center my-auto gap-5'>
               <FiUser className='text-orange-700' size={32} />
               <div>
@@ -53,11 +48,19 @@ const Navbar = () => {
 
           {/* PC Builder Button */}
           <div>
-            <Link to='/pc-builder'>
-              <button className='bg-orange-500 text-white px-4 py-2 rounded-lg'>
-                PC-Builder
-              </button>
-            </Link>
+            <div className='flex justify-center align-center gap-5'>
+              <Link to='/pc-builder'>
+                <button className='bg-orange-500 text-white px-4 py-2 rounded-lg'>
+                  PC-Builder
+                </button>
+              </Link>
+              <div>
+                <Link to='/cart' className='flex'>
+                  <BiSolidCartDownload className='text-orange-700' size={32} />
+                  <div className='text-orange-500 font-semibold'>{productCart.length}</div>
+                </Link>
+              </div>
+            </div>
           </div>
         </nav>
 
