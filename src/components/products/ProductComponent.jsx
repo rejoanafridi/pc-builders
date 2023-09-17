@@ -104,13 +104,24 @@ const ProductsComponent = () => {
                 ${item?.additionalDetails?.regularPrice}
               </div>
             </Link>
-            <div className='mt-auto'>
-              <button
-                className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'
-                onClick={(e) => handleBuyNow(e, item)}>
-                Buy Now
+            {item?.additionalDetails?.status === 'In Stock' ? (
+              <div className='mt-auto'>
+                <button
+                  className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'
+                  onClick={(e) => handleBuyNow(e, item)}>
+                  Buy Now
+                </button>
+              </div>
+            ) : (
+              <diIv className="mt-auto">
+
+              <button className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'>
+                Stock Out
               </button>
-            </div>
+              </diIv>
+            )}
+
+            <div className='mt-auto'></div>
           </div>
         </div>
       </React.Fragment>
