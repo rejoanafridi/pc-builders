@@ -12,7 +12,10 @@ import { toast } from 'react-toastify';
 
 const ProductsComponent = () => {
   const dispatch = useDispatch();
-  const { show, type } = useSelector((state) => state.filter);
+  const { show, type, availability, price } = useSelector(
+    (state) => state.filter,
+  );
+  console.log(availability);
   const path = window.location.pathname;
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [selectType, setSelectType] = useState(type);
@@ -61,19 +64,21 @@ const ProductsComponent = () => {
         unitPrice: findProduct?.additionalDetails?.regularPrice,
       }),
     );
-    toast.success('Product Added to card successfully', {
-      position: 'top-center',
-      autoClose: 1200,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    toast.success('Product Added to card successfully');
   };
 
   const displayComponent = itemsToDisplay
+    ?.filter((product) => {
+      if (availability.inStock) {
+        return product.additionalDetails.status === 'In Stock';
+      } else if (availability.outOfStock) {
+        return product.additionalDetails.status === 'Out Of Stock';
+      } else if (availability.preOrder) {
+        return product.additionalDetails.status === 'Pre Order';
+      } else {
+        return product;
+      }
+    })
     ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
       <React.Fragment key={index}>
