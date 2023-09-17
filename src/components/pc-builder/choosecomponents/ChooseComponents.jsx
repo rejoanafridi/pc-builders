@@ -56,20 +56,20 @@ const ChooseComponents = () => {
   const displayComponent = data[0]
     ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
-      <div key={index} className='w-full  px-4 mb-4 '>
-        <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer flex items-center'>
+      <div key={index} className='w-full px-4 mb-4'>
+        <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer flex flex-col md:flex-row items-center'>
           {/* Product Image */}
-          <div className='w-1/5'>
+          <div className='w-full md:w-1/5'>
             <Link to={`/${createSlug(item.name)}`}>
               <img
                 src={item.imageUrl || ''}
                 alt='Product Image'
-                className='w-full h-auto'
+                className='w-full h-auto md:w-full sm:max-w-xs'
               />
             </Link>
           </div>
 
-          <div className='w-3/5 p-4'>
+          <div className='w-full md:w-3/5 p-4'>
             {/* Product Title */}
             <Link to={`/${createSlug(item.name)}`}>
               <h2 className='text-left text-lg font-semibold hover:text-blue-500'>
@@ -85,7 +85,7 @@ const ChooseComponents = () => {
             </ul>
           </div>
 
-          <div className='w-1/5 text-center'>
+          <div className='w-full md:w-1/5 text-center'>
             {/* Product Price */}
             <div className='text-xl font-bold'>${item.price}</div>
 

@@ -84,38 +84,11 @@ const PcBuilder = () => {
   });
   console.log(product);
 
-  // useEffect(() => {
-  //   // Use the map function to update coreComponents in an immutable way
-  //   const updatedCoreComponents = product.coreComponents.map((component) => {
-  //     // Check if there is a matching key in addedProducts
-  //     const componentName = component.name.toLowerCase();
-
-  //     if (builder[componentName]) {
-  //       // Merge data from addedProducts into the current component
-  //       return {
-  //         ...component,
-  //         data: addedProducts[componentName],
-  //       };
-  //     }
-  //     // If no match found, return the original component
-  //     return component;
-  //   });
-
-  //   // Create a new product object with the updated coreComponents
-  //   const updatedProduct = {
-  //     ...product,
-  //     coreComponents: updatedCoreComponents,
-  //   };
-
-  //   // Update the product state with the new object
-  //   setProduct(updatedProduct);
-  // }, []);
-
   return (
     <div className='container mx-auto border min-h-screen my-4'>
       <div className='builder-header flex justify-between border-2 p-5'>
         <h1 className='text-orange-600 text-xl font-bold'>Pc-Builder</h1>
-        <div className=''>
+        <div className='flex gap-4'>
           <ul className='flex gap-4'>
             <li>add to cart</li>
             <li>Save Pc</li>
@@ -124,9 +97,9 @@ const PcBuilder = () => {
           </ul>
         </div>
       </div>
-      <div className='builder-content mx-5 md:mx-20 my-10 flex flex-col gap-5'>
+      <div className='builder-content mx-5 md:mx-20 my-10'>
         <div className='flex flex-col gap-5 md:flex-row md:justify-between'>
-          <div>
+          <div className='w-full md:w-3/4'>
             <h2 className='text-orange-400 font-bold text-lg md:text-xl lg:text-2xl'>
               pc-builder || Build Your own Computer
             </h2>
@@ -135,10 +108,10 @@ const PcBuilder = () => {
               <span>Hide unconfigured components</span>
             </div>
           </div>
-          <div className='btn w-32 md:w-40 text-center bg-orange-600 text-white p-2'>
-            <div className='flex flex-col'>
-              <p>56000</p>
-              <p>4 item</p>
+          <div className='w-full md:w-1/4 text-center'>
+            <div className='bg-orange-600 text-white p-2 rounded-lg'>
+              <p className='text-xl font-bold'>56000</p>
+              <p className='text-sm'>4 items</p>
             </div>
           </div>
         </div>

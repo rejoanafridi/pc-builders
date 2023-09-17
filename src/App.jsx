@@ -14,6 +14,7 @@ import ChooseComponents from './components/pc-builder/choosecomponents/ChooseCom
 
 import ProductCompare from './pages/compare/ProductCompare';
 import ErrorPage from './utils/ErrorPage';
+import Cart from './pages/cart/Cart';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
               path='/pc-builder/choose-component/:componentName'
               element={<ChooseComponents />}></Route>
             <Route path='/product/compare' element={<ProductCompare />}></Route>
+            <Route path='/checkout/cart' element={<Cart />}></Route>
             <Route
               path='*'
               element={<ErrorPage />} // Replace with your error component
