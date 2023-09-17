@@ -32,7 +32,7 @@ const PrimaryComponent = ({ props, name }) => {
                     </div>
                     <div className='flex flex-row justify-between items-center  gap-2 w-full'>
                       <div>
-                        <h2 className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl text-orange-500 font-bold'>
+                        <h2 className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl text-orange-500 font-semibold'>
                           {buildComponents[component?.name].name}
                         </h2>
                         {/* <p>{buildComponents[component?.name].name}</p> */}
@@ -65,7 +65,7 @@ const PrimaryComponent = ({ props, name }) => {
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                       <div>
-                        <h2 className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl text-orange-500 font-bold'>
+                        <h2 className='text-lg sm:text-xl md:text-2xl lg:text-lg xl:text-xl font-bold'>
                           {component.name}
                         </h2>
                       </div>

@@ -30,7 +30,7 @@ const productSlice = createSlice({
 
     addToProductCart: (state, action) => {
       const productToAdd = action.payload;
-      console.log(productToAdd);
+
       const existingProduct = state.productCart.find(
         (product) => product.id === productToAdd.id,
       );
@@ -43,6 +43,12 @@ const productSlice = createSlice({
         state.productCart.push(productToAdd);
       }
     },
+
+    removeCartItem: (state, action) => {
+      state.productCart = state.productCart.filter(
+        (product) => product.id !== action.payload,
+      );
+    },
   },
 });
 
@@ -53,6 +59,7 @@ export const {
   addProductCompareFirst,
   addProductCompareSecond,
   addToProductCart,
+  removeCartItem,
 } = productSlice.actions;
 
 export default productSlice.reducer;

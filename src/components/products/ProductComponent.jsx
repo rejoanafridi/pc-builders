@@ -3,11 +3,15 @@ import Pagination from '../../utils/Paginate';
 import DropdownButton from '../../utils/dropdown/DropdownButton';
 import { Link } from 'react-router-dom';
 import slugify from 'slugify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SelectShowFilter from '../../utils/SelectShowFilter';
 import Loader from '../../utils/loader/Loader';
+import SideFilter from '../../utils/sideFilter/SideFilter';
+import { addToProductCart } from '../../redux/features/products/productsSlice';
+import { toast } from 'react-toastify';
 
 const ProductsComponent = () => {
+  const dispatch = useDispatch();
   const { show, type } = useSelector((state) => state.filter);
   const path = window.location.pathname;
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -45,6 +49,30 @@ const ProductsComponent = () => {
     }).replace(/\//g, '-');
   };
 
+  const handleBuyNow = (e, findProduct) => {
+    e.preventDefault();
+    dispatch(
+      addToProductCart({
+        id: findProduct.uuid,
+        productImage: findProduct.imageUrl,
+        productName: findProduct.name,
+        productModel: findProduct?.additionalDetails?.keyFeatures[1],
+        quantity: 1,
+        unitPrice: findProduct?.additionalDetails?.regularPrice,
+      }),
+    );
+    toast.success('Product Added to card successfully', {
+      position: 'top-center',
+      autoClose: 1200,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+  };
+
   const displayComponent = itemsToDisplay
     ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
@@ -72,7 +100,9 @@ const ProductsComponent = () => {
               </div>
             </Link>
             <div className='mt-auto'>
-              <button className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'>
+              <button
+                className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'
+                onClick={(e) => handleBuyNow(e, item)}>
                 Buy Now
               </button>
             </div>
@@ -121,40 +151,18 @@ const ProductsComponent = () => {
             className={`${
               showLeftSide ? 'w-1/2 lg:w-1/4' : 'hidden md:block w-1/4'
             } shadow-md bg-white p-4`}>
-            {/* Price Range Slider */}
             <div className='space-y-2'>
-              {/* Availability Section */}
-              <div className='overflow-hidden rounded border border-gray-300'>
-                <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
-                  <span className='text-sm font-medium'> Availability </span>
-                </div>
-
-                <div className='border-t border-gray-200 bg-white'>
-                  {/* ... (Your availability filter content here) */}
-                </div>
-              </div>
-
-              {/* Price Section */}
-              <div className='overflow-hidden rounded border border-gray-300'>
-                <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
-                  <span className='text-sm font-medium'> Price </span>
-                </div>
-
-                <div className='border-t border-gray-200 bg-white'>
-                  {/* ... (Your price filter content here) */}
-                </div>
-              </div>
+              <SideFilter />
             </div>
 
             {/* ... (Your left-side content here) */}
           </div>
-
           <div className='w-full md:w-3/4 p-4'>
-            <div className='flex justify-between items-center'>
-              <h1 className='font-bold text-orange-500 text-2xl'>
+            <div className='flex flex-col justify-between items-center sm:flex-row md:justify-between md:items-center lg:flex-row lg:items-center'>
+              <h1 className='font-bold text-orange-500 text-2xl mb-4 sm:mb-0'>
                 {repath.toUpperCase()}
               </h1>
-              <div className='flex gap-5'>
+              <div className='flex flex-row sm:flex-row lg:flex-row gap-5'>
                 <DropdownButton
                   name='Show'
                   options={[10, 30, 40, 60, 70, 90]}
@@ -162,15 +170,16 @@ const ProductsComponent = () => {
                 <SelectShowFilter />
               </div>
             </div>
+
             <hr className='my-4 border-gray-300' />
             <div className='flex flex-wrap mx-2'>{displayComponent}</div>
+            {totalPages > 1 && (
+              <Pagination
+                pageCount={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </div>
-          {totalPages > 1 && (
-            <Pagination
-              pageCount={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
         </>
       )}
     </div>
