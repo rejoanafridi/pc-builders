@@ -49,6 +49,10 @@ const productSlice = createSlice({
         (product) => product.id !== action.payload,
       );
     },
+    removeBuildComponents: (state, action) => {
+      const { uuid } = action.payload;
+      delete state.buildComponents[action.payload];
+    },
   },
 });
 
@@ -60,6 +64,7 @@ export const {
   addProductCompareSecond,
   addToProductCart,
   removeCartItem,
+  removeBuildComponents,
 } = productSlice.actions;
 
 export default productSlice.reducer;

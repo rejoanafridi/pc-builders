@@ -8,12 +8,13 @@ import Pagination from '../../../utils/Paginate';
 import Search from '../../../utils/search/Search';
 import { useDispatch } from 'react-redux';
 import { addProductToBuilder } from '../../../redux/features/products/productsSlice';
+import Loader from '../../../utils/loader/Loader';
 
 const ChooseComponents = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { componentName } = useParams();
-
+  const [loading, setLoading] = useState(true);
   const [showLeftSide, setShowLeftSide] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -87,7 +88,9 @@ const ChooseComponents = () => {
 
           <div className='w-full md:w-1/5 text-center'>
             {/* Product Price */}
-            <div className='text-xl font-bold'>${item.price}</div>
+            <div className='text-xl font-bold'>
+              ${item?.additionalDetails?.regularPrice}
+            </div>
 
             {/* Buy Now Button */}
             <button
@@ -104,9 +107,12 @@ const ChooseComponents = () => {
     // Fetch products and set them as an array
     fetch('/api/allComponents.json')
       .then((res) => res.json())
-      .then(
-        (data) => setProducts(data), //Set products as an array
-      )
+      .then((data) => {
+        setProducts(data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 200); // //Set products as an array
+      })
       .catch((error) => {
         console.error('Error fetching products:', error);
       });
@@ -122,7 +128,9 @@ const ChooseComponents = () => {
     }
   }, [products, componentName]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className='flex flex-wrap'>
       {/* Left Side (25% width) */}
       <div

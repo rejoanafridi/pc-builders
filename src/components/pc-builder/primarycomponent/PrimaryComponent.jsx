@@ -1,13 +1,22 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { RiDeleteBin4Line } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { removeBuildComponents } from '../../../redux/features/products/productsSlice';
 
 const PrimaryComponent = ({ props, name }) => {
+  const dispatch = useDispatch();
   const { buildComponents } = useSelector((state) => state.products);
   console.log(buildComponents);
+  const handleRemoveItem = (e, productId) => {
+    e.preventDefault();
+    console.log(productId);
+    dispatch(removeBuildComponents(productId));
+    toast.success('Components Removed Add New Component');
+  };
   return (
     <>
       <div className='bg-gray-600'>
@@ -37,13 +46,23 @@ const PrimaryComponent = ({ props, name }) => {
                         </h2>
                         {/* <p>{buildComponents[component?.name].name}</p> */}
                       </div>
-                      <p> Price {buildComponents[component?.name]?.price} </p>
+                      <p>
+                        {' '}
+                        Price{' '}
+                        {
+                          buildComponents[component?.name]?.additionalDetails
+                            ?.regularPrice
+                        }{' '}
+                      </p>
                     </div>
                   </div>
                 </div>
                 <div className='rounded-lg flex items-center justify-end'>
                   <span className='cursor-pointer hover:text-orange-600'>
-                    <RiDeleteBin4Line size={20} />
+                    <RiDeleteBin4Line
+                      size={20}
+                      onClick={(e) => handleRemoveItem(e, component?.name)}
+                    />
                   </span>
                 </div>
               </div>

@@ -101,7 +101,7 @@ const ProductsComponent = () => {
                 ))}
               </ul>
               <div className='text-center text-xl mt-auto font-bold'>
-                ${item.price}
+                ${item?.additionalDetails?.regularPrice}
               </div>
             </Link>
             <div className='mt-auto'>
