@@ -30,7 +30,7 @@ const Navbar = () => {
             <div className='flex justify-center align-center gap-5'>
               <BiSolidOffer className='text-orange-700' size={32} />
               <div>
-                <Link to='/offer'>
+                <Link>
                   <p className='text-2xl'>Offer</p>
                 </Link>
               </div>
@@ -39,7 +39,7 @@ const Navbar = () => {
             <div className='flex justify-center align-center my-auto gap-5'>
               <FiUser className='text-orange-700' size={32} />
               <div>
-                <Link to='/account/login'>
+                <Link to='/login'>
                   <p className='text-xl'>Account</p>
                 </Link>
               </div>
@@ -57,7 +57,9 @@ const Navbar = () => {
               <div>
                 <Link to='/cart' className='flex'>
                   <BiSolidCartDownload className='text-orange-700' size={32} />
-                  <div className='text-orange-500 font-semibold'>{productCart.length}</div>
+                  <div className='text-orange-500 font-semibold'>
+                    {productCart.length}
+                  </div>
                 </Link>
               </div>
             </div>
@@ -70,7 +72,7 @@ const Navbar = () => {
             <div className='flex justify-center align-center gap-5'>
               <BiSolidOffer className='text-orange-700' size={32} />
               <div>
-                <Link to='/offer'>
+                <Link>
                   <p className='text-2xl sm:text-sm'>Offer</p>
                 </Link>
               </div>

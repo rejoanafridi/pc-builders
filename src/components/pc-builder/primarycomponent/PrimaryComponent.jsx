@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RiDeleteBin4Line } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,13 +10,17 @@ import { removeBuildComponents } from '../../../redux/features/products/products
 const PrimaryComponent = ({ props, name }) => {
   const dispatch = useDispatch();
   const { buildComponents } = useSelector((state) => state.products);
-  console.log(buildComponents);
   const handleRemoveItem = (e, productId) => {
     e.preventDefault();
     console.log(productId);
     dispatch(removeBuildComponents(productId));
     toast.success('Components Removed Add New Component');
+    localStorage.setItem('buildComponents', JSON.stringify(buildComponents));
   };
+
+  useEffect(() => {
+    localStorage.setItem('buildComponents', JSON.stringify(buildComponents));
+  }, [buildComponents]);
   return (
     <>
       <div className='bg-gray-600'>

@@ -39,6 +39,13 @@ const Search = () => {
 
     fetchData();
   }, []);
+  const createSlug = (text) => {
+    return slugify(text, {
+      replacement: '-',
+      remove: /[*+~.()'"!:@]/g,
+      lower: true,
+    }).replace(/\//g, '-');
+  };
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
@@ -48,13 +55,6 @@ const Search = () => {
     };
   }, []);
 
-  const createSlug = (text) => {
-    return slugify(text, {
-      replacement: '-',
-      remove: /[*+~.()'"!:@]/g,
-      lower: true,
-    }).replace(/\//g, '-');
-  };
 
   const handleClickOutside = (e) => {
     if (

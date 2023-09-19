@@ -63,16 +63,7 @@ const ProductDetails = () => {
         unitPrice: findProduct?.additionalDetails?.regularPrice,
       }),
     );
-    toast.success('Product Added to card successfully', {
-      position: 'top-center',
-      autoClose: 1200,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    toast.success('Product Added to card successfully');
   };
 
   let template;
@@ -126,35 +117,37 @@ const ProductDetails = () => {
               </label>
               {findProduct?.additionalDetails?.status === 'In Stock' ? (
                 <>
-                  <div className='flex items-center border border-gray-200 rounded w-32'>
-                    <button
-                      type='button'
-                      onClick={() => setQuantity(quantity - 1)}
-                      disabled={quantity <= 1}
-                      className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
-                      -
-                    </button>
+                  <div className='flex gap-5'>
+                    <div className='flex items-center  rounded w-32'>
+                      <button
+                        type='button'
+                        onClick={() => setQuantity(quantity - 1)}
+                        disabled={quantity <= 1}
+                        className='w-16 h-10   text-white bg-orange-500 transition hover:opacity-75'>
+                        -
+                      </button>
 
-                    <input
-                      type='number'
-                      id='Quantity'
-                      value={quantity} // Controlled by state
-                      onChange={(e) => setQuantity(e.target.value)} // Update the state on change
-                      className='h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
-                    />
+                      <input
+                        type='number'
+                        id='Quantity'
+                        value={quantity} // Controlled by state
+                        onChange={(e) => setQuantity(e.target.value)} // Update the state on change
+                        className='px-5 py-2 w-16  text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none'
+                      />
 
+                      <button
+                        type='button'
+                        onClick={() => setQuantity(quantity + 1)}
+                        className='w-16 h-10 text-white bg-orange-500 transition hover:opacity-75'>
+                        +
+                      </button>
+                    </div>
                     <button
-                      type='button'
-                      onClick={() => setQuantity(quantity + 1)}
-                      className='w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75'>
-                      +
-                    </button>
+                      className=' bg-orange-500 text-white p-2 w-64 hover:bg-orange-400'
+                      onClick={(e) => handleBuyNow(e, findProduct)}>
+                      Buy now
+                    </button>{' '}
                   </div>
-                  <button
-                    className='mt-3 bg-orange-500 text-white px-3 py-2 w-64 hover:bg-orange-400'
-                    onClick={(e) => handleBuyNow(e, findProduct)}>
-                    Buy now
-                  </button>{' '}
                 </>
               ) : (
                 <div className='w-60 h-10 leading-10 text-center text-white transition  bg-orange-400'>

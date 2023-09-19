@@ -21,6 +21,31 @@ const productSlice = createSlice({
       const { key, value } = action.payload;
       state.buildComponents[key] = value; // Add a product to the array
     },
+    addBuilderProductToCart: (state, action) => {
+      console.log(action.payload);
+      const keys = Object.keys(action.payload);
+      Object.values(action.payload).map((components) => {
+        const existingProduct = state.productCart.find(
+          (product) => product.id === components.uuid,
+        );
+        console.log(existingProduct);
+        if (existingProduct) {
+          // If the product already exists in the cart, update its quantity
+          existingProduct.quantity += components.quantity;
+        } else {
+          // If it's a new product, add it to the cart
+
+          state.productCart.push({
+            id: components.uuid,
+            productImage: components.imageUrl,
+            productName: components.name,
+            productModel: components?.additionalDetails?.keyFeatures[1],
+            quantity: 1,
+            unitPrice: components?.additionalDetails?.regularPrice,
+          });
+        }
+      });
+    },
     addProductCompareFirst: (state, action) => {
       state.productCompare.selectFirstProduct = action.payload; // Add a product to the array
     },
@@ -50,7 +75,6 @@ const productSlice = createSlice({
       );
     },
     removeBuildComponents: (state, action) => {
-      const { uuid } = action.payload;
       delete state.buildComponents[action.payload];
     },
   },
@@ -65,6 +89,7 @@ export const {
   addToProductCart,
   removeCartItem,
   removeBuildComponents,
+  addBuilderProductToCart,
 } = productSlice.actions;
 
 export default productSlice.reducer;
