@@ -1,17 +1,23 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Pagination from '../../utils/Paginate';
 import DropdownButton from '../../utils/dropdown/DropdownButton';
 import { Link } from 'react-router-dom';
 import slugify from 'slugify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SelectShowFilter from '../../utils/SelectShowFilter';
 import Loader from '../../utils/loader/Loader';
+import SideFilter from '../../utils/sideFilter/SideFilter';
+import { addToProductCart } from '../../redux/features/products/productsSlice';
+import { toast } from 'react-toastify';
 
 const ProductsComponent = () => {
-  const { show, type } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+  const { show, type, availability } = useSelector((state) => state.filter);
+  console.log(type);
   const path = window.location.pathname;
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [selectType, setSelectType] = useState(type);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [selectType, setSelectType] = useState('all');
+  console.log(selectType);
   const repath = path.replace('/', '');
   const [showLeftSide, setShowLeftSide] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -45,38 +51,97 @@ const ProductsComponent = () => {
     }).replace(/\//g, '-');
   };
 
+  const handleBuyNow = (e, findProduct) => {
+    e.preventDefault();
+    dispatch(
+      addToProductCart({
+        id: findProduct.uuid,
+        productImage: findProduct.imageUrl,
+        productName: findProduct.name,
+        productModel: findProduct?.additionalDetails?.keyFeatures[1],
+        quantity: 1,
+        unitPrice: findProduct?.additionalDetails?.regularPrice,
+      }),
+    );
+    toast.success('Product Added to card successfully');
+  };
+
   const displayComponent = itemsToDisplay
+    ?.filter((product) => {
+      let resultFound = null;
+      if (availability.inStock) {
+        resultFound = product.additionalDetails.status === 'In Stock';
+        return resultFound;
+      } else if (availability.outOfStock) {
+        resultFound = product.additionalDetails.status === 'Out Of Stock';
+        return resultFound;
+      } else if (availability.preOrder) {
+        resultFound = product.additionalDetails.status === 'Pre Order';
+        return resultFound;
+      } else {
+        return product;
+      }
+    })
+    ?.sort((a, b) => {
+      if (selectType === 'low-to-high') {
+        return (
+          a.additionalDetails.regularPrice - b.additionalDetails.regularPrice
+        );
+      } else if (selectType === 'high-to-low') {
+        return (
+          b.additionalDetails.regularPrice - a.additionalDetails.regularPrice
+        );
+      } else {
+        return;
+      }
+    })
     ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     .map((item, index) => (
-      <div
-        key={index}
-        className='w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-2 mb-4'>
-        <div className='shadow-md bg-white p-4 hover:bg-gray-100 cursor-pointer h-full '>
-          <Link to={`/${createSlug(item.name)}`}>
-            <img
-              src={item.imageUrl || ''}
-              alt='Product Image'
-              className='mx-auto mb-2'
-              width={250}
-              height={150}
-            />
-            <h2 className='text-center text-lg font-semibold hover:text-blue-500'>
-              {item.name}
-            </h2>
+      <React.Fragment key={index}>
+        <div className='w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 px-2 mb-4'>
+          <div className='shadow-md bg-white p-4 hover:bg-gray-100  h-full flex flex-col'>
+            <Link to={`/${createSlug(item.name)}`}>
+              <img
+                src={item.imageUrl || ''}
+                alt='Product Image'
+                className='mx-auto mb-2'
+                width={250}
+                height={150}
+              />
+              <h2 className='text-center text-lg font-semibold hover:text-orange-500'>
+                {item.name}
+              </h2>
+            </Link>
             <ul className='mt-2 flex flex-col'>
               {itemDescription(item.description).map((li, index) => (
                 <li key={index}>{li}</li>
               ))}
             </ul>
-            <div className='text-center text-xl mt-4 font-bold'>
-              ${item.price}
+            <div className='text-center text-xl mt-auto font-bold'>
+              ${item?.additionalDetails?.regularPrice}
             </div>
-            <button className='bg-orange-500 text-white mt-auto py-2 rounded-full w-full hover:bg-orange-600'>
-              Buy Now
-            </button>
-          </Link>
+            {item?.additionalDetails?.status === 'In Stock' ? (
+              <div className='mt-auto'>
+                <button
+                  className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'
+                  onClick={(e) => handleBuyNow(e, item)}>
+                  Buy Now
+                </button>
+              </div>
+            ) : (
+              <diIv className='mt-auto'>
+                <button
+                  disabled={true}
+                  className='bg-orange-500 text-white py-2 rounded-full w-full hover:bg-orange-600'>
+                  Stock Out
+                </button>
+              </diIv>
+            )}
+
+            <div className='mt-auto'></div>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     ));
 
   useEffect(() => {
@@ -110,7 +175,7 @@ const ProductsComponent = () => {
   }, [type]);
 
   return (
-    <div className='flex flex-wrap'>
+    <div className='flex flex-wrap container mx-auto'>
       {loading ? (
         <Loader />
       ) : (
@@ -119,47 +184,26 @@ const ProductsComponent = () => {
             className={`${
               showLeftSide ? 'w-1/2 lg:w-1/4' : 'hidden md:block w-1/4'
             } shadow-md bg-white p-4`}>
-            {/* Price Range Slider */}
             <div className='space-y-2'>
-              {/* Availability Section */}
-              <div className='overflow-hidden rounded border border-gray-300'>
-                <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
-                  <span className='text-sm font-medium'> Availability </span>
-                </div>
-
-                <div className='border-t border-gray-200 bg-white'>
-                  {/* ... (Your availability filter content here) */}
-                </div>
-              </div>
-
-              {/* Price Section */}
-              <div className='overflow-hidden rounded border border-gray-300'>
-                <div className='flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900'>
-                  <span className='text-sm font-medium'> Price </span>
-                </div>
-
-                <div className='border-t border-gray-200 bg-white'>
-                  {/* ... (Your price filter content here) */}
-                </div>
-              </div>
+              <SideFilter />
             </div>
 
             {/* ... (Your left-side content here) */}
           </div>
-
           <div className='w-full md:w-3/4 p-4'>
-            <div className='flex justify-between items-center'>
-              <h1 className='font-bold text-orange-500 text-2xl'>
+            <div className=' flex flex-col justify-between items-center sm:flex-row md:justify-between md:items-center lg:flex-row lg:items-center'>
+              <h1 className='font-bold text-orange-500 text-2xl mb-4 sm:mb-0'>
                 {repath.toUpperCase()}
               </h1>
-              <div className='flex gap-5'>
+              <div className='flex flex-row sm:flex-row lg:flex-row gap-5'>
                 <DropdownButton
                   name='Show'
-                  options={[10, 30, 40, 60, 70, 90]}
+                  options={[20, 30, 40, 60, 70, 90]}
                 />
                 <SelectShowFilter />
               </div>
             </div>
+
             <hr className='my-4 border-gray-300' />
             <div className='flex flex-wrap mx-2'>{displayComponent}</div>
             {totalPages > 1 && (

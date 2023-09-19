@@ -30,6 +30,7 @@ const SelectSearchProduct = ({ compare, banner }) => {
     const term = e.target.value;
     setSearchTerm(term);
     debouncedSearch(term);
+    setSelectProduct(false);
   };
 
   useEffect(() => {
@@ -83,7 +84,7 @@ const SelectSearchProduct = ({ compare, banner }) => {
   };
 
   return (
-    <div className='relative w-96 z-10' ref={containerRef}>
+    <div className='relative z-10 w-full sm:w-80 md:w-96'>
       <input
         type='text'
         placeholder='Search'

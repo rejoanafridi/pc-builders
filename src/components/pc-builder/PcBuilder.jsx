@@ -1,7 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PrimaryComponent from './primarycomponent/PrimaryComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { addBuilderProductToCart } from '../../redux/features/products/productsSlice';
+import { toast } from 'react-toastify';
+import { MdShoppingCart } from 'react-icons/md';
+import { BiSave } from 'react-icons/bi';
+import { AiFillPrinter } from 'react-icons/ai';
 
 const PcBuilder = () => {
+  const dispatch = useDispatch();
+  const { buildComponents } = useSelector((state) => state.products);
+  console.log(buildComponents);
+
+  const totalPrice = Object.values(buildComponents).reduce(
+    (accumulator, product) => {
+      const regularPrice = parseFloat(
+        product?.additionalDetails?.regularPrice.replace(/[^0-9.]/g, ''),
+      );
+      if (!isNaN(regularPrice)) {
+        return accumulator + regularPrice;
+      }
+      return accumulator;
+    },
+    0,
+  );
+
+  console.log(totalPrice);
+
+  const handleAddToCart = (e, components) => {
+    e.preventDefault();
+    console.log(components);
+    if (!components?.processor?.uuid) {
+      toast.warning('select components first');
+    } else {
+      dispatch(addBuilderProductToCart(components));
+      toast.success('components Added to Cart successfully');
+    }
+  };
   const [product, setProduct] = useState({
     coreComponents: [
       {
@@ -58,10 +93,6 @@ const PcBuilder = () => {
         name: 'ups',
         icon: 'https://www.techlandbd.com/image/cache/wp/gp/AAA-Offer/pc_builder/ups2-48x48.webp',
       },
-      {
-        name: 'anti-virus',
-        icon: 'https://www.techlandbd.com/image/cache/wp/gp/AAA-Offer/pc_builder/antivirus-48x48.webp',
-      },
     ],
     accessories: [
       {
@@ -82,51 +113,52 @@ const PcBuilder = () => {
       },
     ],
   });
-  console.log(product);
 
-  // useEffect(() => {
-  //   // Use the map function to update coreComponents in an immutable way
-  //   const updatedCoreComponents = product.coreComponents.map((component) => {
-  //     // Check if there is a matching key in addedProducts
-  //     const componentName = component.name.toLowerCase();
+  const printPc = () => {
+    // Open a new tab/window with the URL of the PDF generation component
+    const newTab = window.open('/print-pc', '_blank');
 
-  //     if (builder[componentName]) {
-  //       // Merge data from addedProducts into the current component
-  //       return {
-  //         ...component,
-  //         data: addedProducts[componentName],
-  //       };
-  //     }
-  //     // If no match found, return the original component
-  //     return component;
-  //   });
-
-  //   // Create a new product object with the updated coreComponents
-  //   const updatedProduct = {
-  //     ...product,
-  //     coreComponents: updatedCoreComponents,
-  //   };
-
-  //   // Update the product state with the new object
-  //   setProduct(updatedProduct);
-  // }, []);
+    // Check if the new tab has loaded (you may need to adjust the timing)
+    newTab.onload = () => {
+      // Use JavaScript to trigger the print dialog in the new tab
+      newTab.print();
+    };
+  };
 
   return (
-    <div className='container mx-auto border min-h-screen my-4'>
-      <div className='builder-header flex justify-between border-2 p-5'>
-        <h1 className='text-orange-600 text-xl font-bold'>Pc-Builder</h1>
-        <div className=''>
-          <ul className='flex gap-4'>
-            <li>add to cart</li>
-            <li>Save Pc</li>
-            <li>Print</li>
-            <li>Screenshot</li>
+    <div className='container mx-auto border  border-orange-500 min-h-screen my-4'>
+      <div className='builder-header flex flex-col sm:flex-row justify-between border border-orange-500 p-5'>
+        <h1 className='text-orange-600 text-xl sm:text-2xl font-bold mb-2 sm:mb-0'>
+          Pc-Builder
+        </h1>
+        <div className='flex gap-4'>
+          <ul className='flex gap-2 sm:gap-4 '>
+            <li>
+              <button
+                onClick={(e) => handleAddToCart(e, buildComponents)}
+                className='hover:bg-green-600 bg-orange-600 py-1 px-2 text-white rounded-md flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-md lg:text-lg'>
+                <MdShoppingCart size={20} /> Add to Cart
+              </button>
+            </li>
+            <li>
+              <button className='hover:bg-green-600 bg-orange-600 py-1 px-2 text-white rounded-md flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-md lg:text-lg'>
+                <BiSave size={20} /> Save PC
+              </button>
+            </li>
+            <li>
+              <button
+                className='hover:bg-green-600 bg-orange-600 py-1 px-2 text-white rounded-md flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-md lg:text-lg'
+                onClick={printPc}>
+                <AiFillPrinter size={20} /> Print
+              </button>
+            </li>
           </ul>
         </div>
       </div>
-      <div className='builder-content mx-5 md:mx-20 my-10 flex flex-col gap-5'>
-        <div className='flex flex-col gap-5 md:flex-row md:justify-between'>
-          <div>
+
+      <div className='builder-content mx-5 p-3 md:mx-20 my-10 '>
+        <div className='flex flex-col gap-5 md:flex-row md:justify-between my-5'>
+          <div className='w-full md:w-3/4'>
             <h2 className='text-orange-400 font-bold text-lg md:text-xl lg:text-2xl'>
               pc-builder || Build Your own Computer
             </h2>
@@ -135,10 +167,12 @@ const PcBuilder = () => {
               <span>Hide unconfigured components</span>
             </div>
           </div>
-          <div className='btn w-32 md:w-40 text-center bg-orange-600 text-white p-2'>
-            <div className='flex flex-col'>
-              <p>56000</p>
-              <p>4 item</p>
+          <div className='w-40  text-center'>
+            <div className='bg-orange-600 text-white p-2 rounded-lg'>
+              <p className='text-xl font-bold'> {totalPrice} Bdt</p>
+              <p className='text-sm'>
+                {Object.keys(buildComponents).length} items
+              </p>
             </div>
           </div>
         </div>
