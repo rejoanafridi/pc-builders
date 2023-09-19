@@ -1,6 +1,6 @@
 {
   "name": "pc-builder",
-  "private": true,
+  "private": "homepage",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
